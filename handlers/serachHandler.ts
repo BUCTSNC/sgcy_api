@@ -6,11 +6,12 @@ import {
 } from "https://deno.land/x/freesia@v1.0.6/mod.ts";
 import { metaQuery, SearchableFields } from "../memoryDB/metaQuery.ts";
 import { like } from "../utils/RegExpUtils.ts";
+import escapeStringRegExp from "https://esm.sh/escape-string-regexp";
 
 const searchHandler = async (_: Empty, req: Request) => {
     const { searchParams } = parseURL(req);
     // 根据keywords和制定的fields生成where条件
-    const keywords = searchParams.getAll("keywords");
+    const keywords = searchParams.getAll("keywords").map(escapeStringRegExp);
     const fields = searchParams.getAll("fields").filter(
         (field) => ["title", "introduction", "authors", "tags"].includes(field),
     ) as SearchableFields[];

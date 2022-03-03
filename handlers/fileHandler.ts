@@ -12,6 +12,7 @@ import { lookup } from "https://deno.land/x/media_types@v2.12.2/mod.ts";
 import { metaQuery } from "../memoryDB/metaQuery.ts";
 import { exact } from "../utils/RegExpUtils.ts";
 import { root } from "../server.ts";
+import escapeStringRegExp from "https://esm.sh/escape-string-regexp";
 
 function getPostPath(uuid: string): string | null {
     const result = metaQuery({
@@ -32,6 +33,7 @@ const postFileHandler = (
     _req: Request,
 ): Promise<Respond> =>
     compute(getPostPath(params.uuid))
+        .mapSkipNull(escapeStringRegExp)
         .mapSkipNull((postPath) => join(postPath, params.filepath))
         .mapSkipNull((fullPath) =>
             Deno.open(fullPath, { read: true, write: false }).catch(() => null)

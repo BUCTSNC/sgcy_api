@@ -22,12 +22,12 @@ export type PostMetaInJSON = {
     introduction: string;
     authors: string[];
     tags: string[];
-}
+};
 
 export type PostMetaInFS = {
     uuid: string;
     directory: string;
     timestamp: Date;
-}
+};
 
-export type Post = PostMetaInFS & PostMetaInJSON
+export type Post = PostMetaInFS & PostMetaInJSON;

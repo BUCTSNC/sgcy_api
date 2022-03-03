@@ -51,7 +51,9 @@ export function metaQuery(query: MetaQueryOption, db = memoryDB) {
                     (key) =>
                         inDuration.filter((p) =>
                             Boolean(
-                                p[key as "authors" | "tags"].filter(str => re.exec(str))
+                                p[key as "authors" | "tags"].filter((str) =>
+                                    re.exec(str)
+                                )
                                     .length,
                             )
                         ),

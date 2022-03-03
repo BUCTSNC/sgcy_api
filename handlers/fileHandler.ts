@@ -6,11 +6,12 @@ import {
     Respond,
 } from "https://deno.land/x/freesia@v1.0.6/mod.ts";
 import { Status } from "https://deno.land/std@0.127.0/http/http_status.ts";
-import { resolve } from "https://deno.land/std@0.127.0/path/mod.ts";
+import { extname, resolve } from "https://deno.land/std@0.127.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.127.0/streams/mod.ts";
-import { lookup } from "https://deno.land/x/mime_types@1.0.0/mod.ts";
+import { lookup } from "https://deno.land/x/media_types@v2.12.2/mod.ts";
 import { metaQuery } from "../memoryDB/metaQuery.ts";
-import { exact } from "../utils/RegExpUtils.ts"
+import { exact } from "../utils/RegExpUtils.ts";
+import { root } from "../server.ts";
 
 function getPostPath(uuid: string): string | null {
     const result = metaQuery({
@@ -18,7 +19,7 @@ function getPostPath(uuid: string): string | null {
             ["uuid", exact(uuid)],
         ],
     });
-    if (result.length === 1) return result[0].directory;
+    if (result.length === 1) return resolve(root, result[0].directory);
     else return null;
 }
 
@@ -41,16 +42,17 @@ const postFileHandler = (
             return null;
         })
         .aMapSkipNull(readableStreamFromReader)
-        .aMap((result) =>
-            result === null
-                ? createRes(
-                    Status.NotFound,
-                    `No such file ${params.filepath} in archive ${params.uuid}`,
-                )
-                : createRes(result, {
-                    "Content-Type": lookup(params.filepath) ||
-                        "application/octect-stream",
-                })
+        .aMap(
+            (result) =>
+                result === null
+                    ? createRes(
+                        Status.NotFound,
+                        `No such file ${params.filepath} in archive ${params.uuid}`,
+                    )
+                    : createRes(result, {
+                        "Content-Type": lookup(extname(params.filepath)) ??
+                            "application/octect-stream",
+                    }),
         )
         .value;
 

@@ -12,7 +12,7 @@ import { Status } from "https://deno.land/std@0.127.0/http/http_status.ts";
 import { initDB } from "./memoryDB/db.ts";
 import fileHandler from "./handlers/fileHandler.ts";
 import searchHandler from "./handlers/serachHandler.ts";
-import { resolve } from "https://deno.land/std@0.127.0/path/mod.ts";
+import { join } from "https://deno.land/std@0.127.0/path/mod.ts";
 
 const token = crypto.randomUUID()
 
@@ -36,7 +36,7 @@ const { switcher } = createSwRtX
     );
 const main: EntryPoint = async (req) => switcher(parseURL(req).pathname, req);
 
-export const root = resolve(Deno.cwd(), "docs")
+export const root = join(Deno.cwd(), "docs")
 
 initDB().then(
     (amount) => {

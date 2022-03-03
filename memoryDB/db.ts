@@ -1,4 +1,4 @@
-import { resolve } from "https://deno.land/std@0.127.0/path/mod.ts";
+import { join } from "https://deno.land/std@0.127.0/path/mod.ts";
 import { isVoid } from "https://deno.land/x/freesia@v1.0.6/mod.ts";
 import { root } from "../server.ts";
 import { ajv, metaParser, Post } from "./post.ts";
@@ -11,10 +11,10 @@ export let memoryDB: MemoryDB = [];
 async function findPostRecursively(targetPath: string): Promise<Post[]> {
     // 查找子目录中的Post
     let subPosts: Post[] = [];
-    for await (const entry of Deno.readDir(resolve(root, targetPath))) {
+    for await (const entry of Deno.readDir(join(root, targetPath))) {
         if (entry.isDirectory) {
             const postsInDir = await findPostRecursively(
-                resolve(targetPath, entry.name),
+                join(targetPath, entry.name),
             );
             subPosts = [...subPosts, ...postsInDir];
         }
@@ -22,7 +22,7 @@ async function findPostRecursively(targetPath: string): Promise<Post[]> {
     // 检查当前目录是否是Post
     const [indexMDStat, metaJSONStat, uuidStat] = await Promise.all(
         ["index.md", "meta.json", ".uuid"].map((filename) =>
-            Deno.stat(resolve(root, targetPath, filename)).catch(() => null)
+            Deno.stat(join(root, targetPath, filename)).catch(() => null)
         ),
     );
     // 如果存在meta.json或index.md中的任意一个，但不存在另一个，或者都存在但其中一个不是文件时，退出程序
@@ -37,7 +37,7 @@ async function findPostRecursively(targetPath: string): Promise<Post[]> {
     }
     if (metaJSONStat?.isFile) {
         const metaJSON = await Deno.readTextFile(
-            resolve(root, targetPath, "meta.json"),
+            join(root, targetPath, "meta.json"),
         );
         try {
             const meta = metaParser(metaJSON);
@@ -51,12 +51,12 @@ async function findPostRecursively(targetPath: string): Promise<Post[]> {
             const timestamp = indexMDStat?.mtime ?? new Date();
             if (isVoid(uuidStat)) {
                 await Deno.writeTextFile(
-                    resolve(root, targetPath, ".uuid"),
+                    join(root, targetPath, ".uuid"),
                     crypto.randomUUID(),
                 );
             }
             const uuid = await Deno.readTextFile(
-                resolve(root, targetPath, ".uuid"),
+                join(root, targetPath, ".uuid"),
             );
             return [...subPosts, {
                 uuid,

@@ -9,7 +9,8 @@ import { Status } from "https://deno.land/std@0.127.0/http/http_status.ts";
 import { resolve } from "https://deno.land/std@0.127.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.127.0/streams/mod.ts";
 import { lookup } from "https://deno.land/x/mime_types@1.0.0/mod.ts";
-import { exact, metaQuery } from "./memoryDB.ts";
+import { metaQuery } from "../memoryDB/metaQuery.ts";
+import { exact } from "../utils/RegExpUtils.ts"
 
 function getPostPath(uuid: string): string | null {
     const result = metaQuery({

@@ -15,7 +15,7 @@ export function metaQuery(query: MetaQueryOption, db = memoryDB) {
     const {
         where,
         sort = "asc",
-        duration = [0, Number.MAX_SAFE_INTEGER],
+        duration = [new Date(0), new Date()],
         limit = 10,
     } = query;
     // 限制查询的时间范围

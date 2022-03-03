@@ -31,7 +31,7 @@ type PostMetaInJSON = {
     introduction: string;
     authors: string[];
     tags: string[];
-}
+};
 ```
 
 例子如下：
@@ -49,3 +49,28 @@ type PostMetaInJSON = {
 - introduction：文章的介绍
 - authros：文章的作者列表
 - tags：文章的关键词列表
+
+## APIs
+
+### 搜索接口
+
+搜索接口的路径是`/search`，通过查询字符串来添加搜索信息。查询参数包括：
+
+- keywords: 查询关键词，可以有若干个，例如`&keywords=昌平&keywords=宿舍`。多个关键词结果取合集。
+- fields：查询字段名，有效的字段名有：`title`，`introduction`，`authors`，`tags`
+- limit：结果数目，最多输出若干条结果
+- asc：排序方式，设置为0或1（若不为1的任意值，按照desc排列）
+- from：查询范围的起始时间（可选，默认为时间戳0点）
+- to：查询范围的终止时间（可选，默认为现在）
+
+查询示例
+
+`http://hostname:port/serach?keywords=昌平&keywords=校园风光&fields=introduction&fields=tag&limit=10&asc=1&from=2020.12.31&to=2021.12.31`
+
+### 文件接口
+
+文件接口的路径是`/file/<uuid>/<filepath>`，系统会首先在内部通过UUID查询实际的Post目录路径，然后查找对应的文件位置。如果文件或者Post不存在，都会返回404。
+
+示例路径：
+
+`http://hostname:port/file/file/dbc9d459-0438-46b0-8484-cb63f4eb3491/we_love_buct.jpg`

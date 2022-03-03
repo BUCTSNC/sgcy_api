@@ -10,8 +10,8 @@
 
 程序的入口是`server.ts`，你可以进行：
 
-- 运行：`deno --watch --allow-net --allow-read run server.ts`
-- 编译：`deno --allow-net --allow-read compile server.ts`
+- 运行：`deno run --watch --allow-net --allow-read --allow-write server.ts`
+- 编译：`deno compile --allow-net --allow-read --allow-write server.ts`
 
 ## 目录
 

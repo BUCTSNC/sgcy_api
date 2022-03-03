@@ -1,6 +1,6 @@
 # 胜古朝阳API
 
-使用Deno来开发和编译此程序。需要`--allow-net`和`--allow-read`参数。
+使用Deno来开发和编译此程序。需要`--allow-net`（网络监听）、`--allow-write`（写入UUID）和`--allow-read`（读取文件）参数。
 
 ## 开发
 

@@ -2,7 +2,7 @@
  * like函数构建的RegExp是大小写不敏感的，除非使用flags声明
  */
 export function like(content: string, flags = "i") {
-    return new RegExp(`*${content}*`, flags);
+    return new RegExp(`(.*)${content}(.*)`, flags);
 }
 
 /**

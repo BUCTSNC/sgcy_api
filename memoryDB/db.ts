@@ -1,4 +1,4 @@
-import { resolve } from "https://deno.land/std@0.127.0/path/win32.ts";
+import { resolve } from "https://deno.land/std@0.127.0/path/mod.ts";
 import { isVoid } from "https://deno.land/x/freesia@v1.0.6/mod.ts";
 import { root } from "../server.ts";
 import { ajv, metaParser, Post } from "./post.ts";

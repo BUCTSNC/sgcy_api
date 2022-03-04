@@ -1,23 +1,47 @@
 import { isVoid } from "https://deno.land/x/freesia@v1.0.6/mod.ts";
+import Ajv, { JTDSchemaType } from "https://esm.sh/ajv@8.10.0/dist/jtd";
 
-type Inner = { uuid: string, visited: number[]; }[];
-type Outer = { uuid: string, visited: number; }[];
+const ajv = new Ajv({
+    int32range: false,
+    parseDate: true,
+});
 
-const inner: Inner = [];
+const schema: JTDSchemaType<DataOnFs> = {
+    properties: {
+        date: { type: "timestamp" },
+        inner: {
+            elements: {
+                properties: {
+                    uuid: { type: "string" },
+                    visited: {
+                        elements: {
+                            type: "uint32",
+                        },
+                    },
+                },
+            },
+        },
+    },
+};
+
+export const visitLogSerializer = ajv.compileSerializer(schema);
+export const visitLogParser = ajv.compileParser(schema);
+
+type Inner = { uuid: string; visited: number[]; }[];
+type Outer = { uuid: string; visited: number; }[];
+type DataOnFs = {
+    date: Date;
+    inner: Inner;
+};
+
+export let inner: Inner = [];
 export let outerDaily: Outer = generateForDays(1);
 export let outerWeekly: Outer = generateForDays(7);
 export let outerMonthly: Outer = generateForDays(30);
 export let outerYearly: Outer = generateForDays(365);
 
-
-function newDay() {
-    inner.forEach(post => {
-        post.visited = [0, ...post.visited];
-    });
-}
-
 export function logVisit(uuid: string) {
-    const post = inner.find(post => post.uuid === uuid);
+    const post = inner.find((post) => post.uuid === uuid);
     if (isVoid(post)) {
         inner.push({ uuid, visited: [1] });
     } else {
@@ -26,23 +50,35 @@ export function logVisit(uuid: string) {
 }
 
 function generateForDays(days: number, amount = 50) {
-    return inner.map(post => {
-        return { uuid: post.uuid, visited: post.visited.slice(0, days).reduce((a, b) => a + b, 0) };
+    return inner.map((post) => {
+        return {
+            uuid: post.uuid,
+            visited: post.visited.slice(0, days).reduce((a, b) => a + b, 0),
+        };
     }).sort((a, b) => a.visited - b.visited)
         .slice(0, amount);
 }
 
-export function startUpdate(interval: number) {
-    return setInterval(() => {
-        outerDaily = generateForDays(1);
-        outerWeekly = generateForDays(7);
-        outerMonthly = generateForDays(30);
-        outerYearly = generateForDays(365);
-    }, interval);
+export function updateAll() {
+    outerDaily = generateForDays(1);
+    outerWeekly = generateForDays(7);
+    outerMonthly = generateForDays(30);
+    outerYearly = generateForDays(365);
 }
 
-setTimeout(() => {
-    setInterval(() => newDay(), 24 * 60 * 60 * 1000);
-}, new Date(
-    new Date().toDateString()
-).getTime() + 24 * 60 * 60 * 1000 - new Date().getTime());
+export function newDay() {
+    // 最多保持1000天的记录
+    inner.forEach((post) => {
+        post.visited = [0, ...post.visited.slice(0, 1000)];
+    });
+}
+
+export function msToNext24() {
+    return new Date(
+        new Date().toDateString(),
+    ).getTime() + 24 * 60 * 60 * 1000 - new Date().getTime();
+}
+
+export function updateInner(newInner: Inner) {
+    inner = newInner;
+}

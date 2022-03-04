@@ -8,7 +8,10 @@ type MemoryDB = Post[];
 export let memoryDB: MemoryDB = [];
 
 // find posts from fs
-async function findPostRecursively(targetPath: string): Promise<Post[]> {
+async function findPostRecursively(
+    targetPath: string,
+    strict = false,
+): Promise<Post[]> {
     // 查找子目录中的Post
     let subPosts: Post[] = [];
     for await (const entry of Deno.readDir(join(root, targetPath))) {
@@ -33,6 +36,7 @@ async function findPostRecursively(targetPath: string): Promise<Post[]> {
         console.log(
             `Error: A post need has both file index.md and file meta.json. Post directory: ${targetPath}`,
         );
+        if (strict) Deno.exit(1);
         return subPosts;
     }
     if (metaJSONStat?.isFile) {
@@ -43,8 +47,7 @@ async function findPostRecursively(targetPath: string): Promise<Post[]> {
             const meta = metaParser(metaJSON);
             if (meta === undefined) {
                 throw new Error(
-                    `Meta info in ${targetPath} is invalid. Schema check error: \n${
-                        JSON.stringify(ajv.errors)
+                    `Meta info in ${targetPath} is invalid. Schema check error: \n${JSON.stringify(ajv.errors)
                     }`,
                 );
             }
@@ -69,6 +72,7 @@ async function findPostRecursively(targetPath: string): Promise<Post[]> {
                 `Error happend when parse Post in ${targetPath}, ignore it.`,
             );
             console.log(errors);
+            if (strict) Deno.exit(1);
             return subPosts;
         }
     }
@@ -76,7 +80,9 @@ async function findPostRecursively(targetPath: string): Promise<Post[]> {
 }
 
 // init db and return amount of posts
-export async function initDB(): Promise<number> {
-    memoryDB = await findPostRecursively(".");
-    return memoryDB.length;
+export async function initDB(strict = false) {
+    memoryDB = await findPostRecursively(".", strict);
+    console.log(
+        `${new Date().toLocaleString()} ${memoryDB.length} posts detected.`,
+    );
 }

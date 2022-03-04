@@ -13,6 +13,7 @@ import { metaQuery } from "../memoryDB/metaQuery.ts";
 import { exact } from "../utils/RegExpUtils.ts";
 import { root } from "../server.ts";
 import escapeStringRegExp from "https://esm.sh/escape-string-regexp";
+import { logVisit } from "../memoryDB/logger.ts";
 
 function getPostPath(uuid: string): string | null {
     const result = metaQuery({
@@ -24,12 +25,8 @@ function getPostPath(uuid: string): string | null {
     else return null;
 }
 
-function logVisit(_uuid: string): void {
-    return void (0);
-}
-
 const postFileHandler = (
-    params: { uuid: string; filepath: string },
+    params: { uuid: string; filepath: string; },
     _req: Request,
 ): Promise<Respond> =>
     compute(getPostPath(params.uuid))

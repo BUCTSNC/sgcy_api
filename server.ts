@@ -13,6 +13,7 @@ import { initDB } from "./memoryDB/db.ts";
 import fileHandler from "./handlers/fileHandler.ts";
 import searchHandler from "./handlers/serachHandler.ts";
 import refreshDBHandler from "./handlers/refreshDB.ts";
+import listHandler from "./handlers/listHandler.ts";
 
 export const token = crypto.randomUUID();
 export const root = join(Deno.cwd(), "docs");
@@ -21,6 +22,7 @@ const { switcher } = createSwRtX
     .route("/file/<uuid>/<filepath>", Get(fileHandler))
     .route("/search", Get(searchHandler))
     .route("/refresh", Get(refreshDBHandler))
+    .route("/list/<type>", Get(listHandler))
     .fallback(async (url, req) =>
         createRes(Status.NotFound, `No route matched ${req.method} ${url}`)
     );

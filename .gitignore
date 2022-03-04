@@ -1,2 +1,5 @@
 docs/
+# For *nix
 server
+# For Windows
+server.exe

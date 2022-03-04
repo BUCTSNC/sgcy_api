@@ -71,6 +71,8 @@ type PostMetaInJSON = {
 
 文件接口的路径是`/file/<uuid>/<filepath>`，系统会首先在内部通过 UUID 查询实际的 Post 目录路径，然后查找对应的文件位置。如果文件或者 Post 不存在，都会返回 404。
 
+当访问的搜索参数中有`firstVisit`，且访问的`filepath`是`index.md`，且返回值为`200`时，记录一次访问。
+
 示例路径：
 
 `http://hostname:port/file/file/dbc9d459-0438-46b0-8484-cb63f4eb3491/we_love_buct.jpg`

@@ -4,7 +4,7 @@ import {
     createRes,
     parseURL,
     Respond,
-} from "https://deno.land/x/freesia@v1.0.6/mod.ts";
+} from "https://deno.land/x/freesia@v1.0.8/mod.ts";
 import { Status } from "https://deno.land/std@0.127.0/http/http_status.ts";
 import { extname, join } from "https://deno.land/std@0.127.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.127.0/streams/mod.ts";
@@ -26,7 +26,7 @@ function getPostPath(uuid: string): string | null {
 }
 
 const postFileHandler = (
-    params: { uuid: string; filepath: string },
+    params: { uuid: string; filepath: string; },
     _req: Request,
 ): Promise<Respond> =>
     compute(getPostPath(params.uuid))

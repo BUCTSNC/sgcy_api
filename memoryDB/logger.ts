@@ -1,4 +1,4 @@
-import { isVoid } from "https://deno.land/x/freesia@v1.0.6/mod.ts";
+import { isVoid } from "https://deno.land/x/freesia@v1.0.8/mod.ts";
 import Ajv, { JTDSchemaType } from "https://esm.sh/ajv@8.10.0/dist/jtd";
 
 const ajv = new Ajv({

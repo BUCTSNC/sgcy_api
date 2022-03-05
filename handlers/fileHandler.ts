@@ -11,7 +11,7 @@ import { readableStreamFromReader } from "https://deno.land/std@0.127.0/streams/
 import { lookup } from "https://deno.land/x/media_types@v2.12.2/mod.ts";
 import { metaQuery } from "../memoryDB/metaQuery.ts";
 import { exact } from "../utils/RegExpUtils.ts";
-import { root } from "../server.ts";
+import { root } from "../constant.ts";
 import escapeStringRegExp from "https://esm.sh/escape-string-regexp";
 import { logVisit } from "../memoryDB/logger.ts";
 
@@ -26,7 +26,7 @@ function getPostPath(uuid: string): string | null {
 }
 
 const postFileHandler = (
-    params: { uuid: string; filepath: string },
+    params: { uuid: string; filepath: string; },
     _req: Request,
 ): Promise<Respond> =>
     compute(getPostPath(params.uuid))

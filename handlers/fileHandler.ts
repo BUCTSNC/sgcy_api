@@ -2,6 +2,7 @@ import {
     compute,
     createEffect,
     createRes,
+    isVoid,
     parseURL,
     Respond,
 } from "https://deno.land/x/freesia@v1.0.8/mod.ts";
@@ -14,6 +15,7 @@ import { exact } from "../utils/RegExpUtils.ts";
 import { root } from "../constant.ts";
 import escapeStringRegExp from "https://esm.sh/escape-string-regexp";
 import { logVisit } from "../memoryDB/logger.ts";
+import { validate } from "./ticketHandler.ts";
 
 function getPostPath(uuid: string): string | null {
     const result = metaQuery({
@@ -26,7 +28,7 @@ function getPostPath(uuid: string): string | null {
 }
 
 const postFileHandler = (
-    params: { uuid: string; filepath: string; },
+    params: { uuid: string; filepath: string },
     _req: Request,
 ): Promise<Respond> =>
     compute(getPostPath(params.uuid))
@@ -58,12 +60,20 @@ const postFileHandler = (
 const visitLogger = createEffect<typeof postFileHandler>(
     ({ uuid, filepath }, req) =>
         async (res) => {
+            const searchParams = parseURL(req).searchParams;
             if (
                 filepath === "index.md" &&
-                parseURL(req).searchParams.get("firstVisit") !== null &&
+                searchParams.get("firstVisit") !== null &&
                 (await res).status === Status.OK
             ) {
-                logVisit(uuid);
+                const secret = searchParams.get("secret");
+                const signature = searchParams.get("signature");
+                if (
+                    !isVoid(secret) && !isVoid(signature) &&
+                    await validate(secret, signature)
+                ) {
+                    logVisit(uuid);
+                }
             }
         },
 );

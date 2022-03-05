@@ -1,6 +1,7 @@
 # 胜古朝阳 API
 
-使用 Deno 来开发和编译此程序。需要`--allow-net`（网络监听）、`--allow-write`（写入 UUID）和`--allow-read`（读取文件）参数。
+使用 Deno 来开发和编译此程序。需要`--allow-net`（网络监听）、`--allow-write`（写入
+UUID）和`--allow-read`（读取文件）参数。
 
 ## 开发
 
@@ -15,7 +16,8 @@
 
 ## 目录
 
-默认文章根目录是运行程序时，工作目录下的`docs/`，每个 Post 目录下应该包含至少`index.md`和`meta.json`两个文件。程序运行后，同时存在`index.md`和`meta.json`的目录下会创建`.uuid`（如果没有的话）。
+默认文章根目录是运行程序时，工作目录下的`docs/`，每个 Post
+目录下应该包含至少`index.md`和`meta.json`两个文件。程序运行后，同时存在`index.md`和`meta.json`的目录下会创建`.uuid`（如果没有的话）。
 
 可以以任意的形式来组织目录树，这不会影响文章的层次结构。初始化数据库时，程序会递归的检索目标目录的整个目录树。尽管理论上程序不会追踪符号链接，但是我还没有在多种平台上进行测试，因此仍然请不要在目录中放置符号链接，尤其是可能造成循环的符号链接。
 
@@ -27,10 +29,10 @@
 
 ```ts
 type PostMetaInJSON = {
-  title: string;
-  introduction: string;
-  authors: string[];
-  tags: string[];
+    title: string;
+    introduction: string;
+    authors: string[];
+    tags: string[];
 };
 ```
 
@@ -38,10 +40,10 @@ type PostMetaInJSON = {
 
 ```json
 {
-  "title": "通过VPN在校外访问学术资源",
-  "introduction": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
-  "authors": ["张三", "李四"],
-  "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
+    "title": "通过VPN在校外访问学术资源",
+    "introduction": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
+    "authors": ["张三", "李四"],
+    "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
 }
 ```
 
@@ -69,7 +71,8 @@ type PostMetaInJSON = {
 
 ### 文件接口
 
-文件接口的路径是`/file/<uuid>/<filepath>`，系统会首先在内部通过 UUID 查询实际的 Post 目录路径，然后查找对应的文件位置。如果文件或者 Post 不存在，都会返回 404。
+文件接口的路径是`/file/<uuid>/<filepath>`，系统会首先在内部通过 UUID 查询实际的 Post
+目录路径，然后查找对应的文件位置。如果文件或者 Post 不存在，都会返回 404。
 
 当访问的搜索参数中有`firstVisit`，且访问的`filepath`是`index.md`，且返回值为`200`时，记录一次访问。
 
@@ -79,4 +82,5 @@ type PostMetaInJSON = {
 
 ### 榜单接口
 
-榜单接口的路径是`/list/<type>`，支持的`type`包括`daily`，`weekly`，`monthly`，`yearly`，可以获得访问量的前 50 位。
+榜单接口的路径是`/list/<type>`，支持的`type`包括`daily`，`weekly`，`monthly`，`yearly`，可以获得访问量的前
+50 位。

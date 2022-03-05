@@ -1,7 +1,15 @@
 import { join } from "https://deno.land/std@0.127.0/path/win32.ts";
 import { isVoid } from "https://deno.land/x/freesia@v1.0.8/mod.ts";
 import { initDB } from "./memoryDB/db.ts";
-import { visitLogParser, updateInner, newDay, updateAll, msToNext24, visitLogSerializer, inner } from "./memoryDB/logger.ts";
+import {
+    inner,
+    msToNext24,
+    newDay,
+    updateAll,
+    updateInner,
+    visitLogParser,
+    visitLogSerializer,
+} from "./memoryDB/logger.ts";
 import { root } from "./server.ts";
 
 export default function init() {

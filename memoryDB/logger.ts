@@ -27,8 +27,8 @@ const schema: JTDSchemaType<DataOnFs> = {
 export const visitLogSerializer = ajv.compileSerializer(schema);
 export const visitLogParser = ajv.compileParser(schema);
 
-type Inner = { uuid: string; visited: number[]; }[];
-type Outer = { uuid: string; visited: number; }[];
+type Inner = { uuid: string; visited: number[] }[];
+type Outer = { uuid: string; visited: number }[];
 type DataOnFs = {
     date: Date;
     inner: Inner;

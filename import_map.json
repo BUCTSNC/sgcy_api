@@ -1,0 +1,11 @@
+{
+    "imports": {
+        "freesia": "https://deno.land/x/freesia@v1.0.9/mod.ts",
+        "std/": "https://deno.land/std@0.127.0/",
+        "fast_base64/": "https://deno.land/x/fast_base64@v0.1.7/",
+        "media_types": "https://deno.land/x/media_types@v2.12.2/mod.ts",
+        "escaep_string_regexp": "https://esm.sh/escape-string-regexp@5.0.0",
+        "ReactDOMServer": "https://esm.sh/react-dom@17.0.2/server",
+        "Ajv_jtd": "https://esm.sh/ajv@8.10.0/dist/jtd"
+    }
+}

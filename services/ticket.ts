@@ -1,8 +1,8 @@
-// @deno-types="https://deno.land/x/fast_base64@v0.1.7/types/index.d.ts"
+// @deno-types="fast_base64/types/index.d.ts"
 import {
     toBase64,
     toBytes,
-} from "https://deno.land/x/fast_base64@v0.1.7/dist/base64-wasm.js";
+} from "fast_base64/dist/base64-wasm.js";
 
 export const toBase64Url = async (bytes: Uint8Array) =>
     encodeURIComponent(await toBase64(bytes));

@@ -1,3 +1,6 @@
+import { Status } from "std/http/http_status.ts";
+import { extname, join } from "std/path/mod.ts";
+import { readableStreamFromReader } from "std/streams/mod.ts";
 import {
     compute,
     createEffect,
@@ -5,12 +8,9 @@ import {
     isVoid,
     parseURL,
     Respond,
-} from "https://deno.land/x/freesia@v1.0.9/mod.ts";
-import { Status } from "https://deno.land/std@0.127.0/http/http_status.ts";
-import { extname, join } from "https://deno.land/std@0.127.0/path/mod.ts";
-import { readableStreamFromReader } from "https://deno.land/std@0.127.0/streams/mod.ts";
-import { lookup } from "https://deno.land/x/media_types@v2.12.2/mod.ts";
-import escapeStringRegExp from "https://esm.sh/escape-string-regexp@5.0.0";
+} from "freesia";
+import { lookup } from "media_types";
+import escapeStringRegExp from "escaep_string_regexp";
 import { metaQuery } from "../memoryDB/metaQuery.ts";
 import { exact } from "../utils/RegExpUtils.ts";
 import { root } from "../constant.ts";

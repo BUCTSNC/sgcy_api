@@ -1,4 +1,4 @@
-import { condition, resJson } from "https://deno.land/x/freesia@v1.0.9/mod.ts";
+import { condition, resJson } from "freesia";
 import {
     outerDaily,
     outerMonthly,
@@ -6,7 +6,7 @@ import {
     outerYearly,
 } from "../memoryDB/logger.ts";
 
-const listHandler = async (params: { type: string }) => {
+const listHandler = async (params: { type: string; }) => {
     return resJson(
         condition(params.type)
             .match("daily", () => outerDaily)

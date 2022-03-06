@@ -1,5 +1,5 @@
-import { isVoid } from "https://deno.land/x/freesia@v1.0.9/mod.ts";
-import Ajv, { JTDSchemaType } from "https://esm.sh/ajv@8.10.0/dist/jtd";
+import { isVoid } from "freesia";
+import Ajv, { JTDSchemaType } from "Ajv_jtd";
 
 const ajv = new Ajv({
     int32range: false,
@@ -27,8 +27,8 @@ const schema: JTDSchemaType<DataOnFs> = {
 export const visitLogSerializer = ajv.compileSerializer(schema);
 export const visitLogParser = ajv.compileParser(schema);
 
-type Inner = { uuid: string; visited: number[] }[];
-type Outer = { uuid: string; visited: number }[];
+type Inner = { uuid: string; visited: number[]; }[];
+type Outer = { uuid: string; visited: number; }[];
 type DataOnFs = {
     date: Date;
     inner: Inner;

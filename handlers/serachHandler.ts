@@ -3,10 +3,10 @@ import {
     Empty,
     parseURL,
     resJson,
-} from "https://deno.land/x/freesia@v1.0.9/mod.ts";
+} from "freesia";
+import escapeStringRegExp from "escaep_string_regexp";
 import { metaQuery, SearchableFields } from "../memoryDB/metaQuery.ts";
 import { like } from "../utils/RegExpUtils.ts";
-import escapeStringRegExp from "https://esm.sh/escape-string-regexp@5.0.0";
 
 const searchHandler = async (_: Empty, req: Request) => {
     const { searchParams } = parseURL(req);

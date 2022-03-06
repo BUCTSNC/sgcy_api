@@ -1,13 +1,12 @@
-import { extname, join } from "https://deno.land/std@0.127.0/path/mod.ts";
-import { readableStreamFromReader } from "https://deno.land/std@0.127.0/streams/mod.ts";
+import { extname, join } from "std/path/mod.ts";
+import { readableStreamFromReader } from "std/streams/mod.ts";
 import {
     compute,
     createRes,
     isVoid,
-} from "https://deno.land/x/freesia@v1.0.9/mod.ts";
-import { lookup } from "https://deno.land/x/media_types@v2.12.2/mod.ts";
-import { renderToString } from "https://esm.sh/react-dom@17.0.2/server";
-import React from "https://esm.sh/react@17.0.2";
+} from "freesia";
+import { lookup } from "media_types";
+import { renderToString } from "ReactDOMServer";
 import { staticRoot } from "../constant.ts";
 import App from "../views/App.tsx";
 
@@ -33,7 +32,7 @@ const ssrHandler = async (url: string, req: Request) => {
     }
     return createRes(
         renderToString(
-            <App url={url} method={req.method} />,
+            App({ url, method: req.method })
         ),
         [
             "Content-Type",

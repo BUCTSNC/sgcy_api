@@ -1,4 +1,4 @@
-import Ajv, { JTDSchemaType } from "https://esm.sh/ajv@8.10.0/dist/jtd";
+import Ajv, { JTDSchemaType } from "Ajv_jtd";
 
 export const ajv = new Ajv();
 

@@ -1,5 +1,5 @@
-import { join } from "https://deno.land/std@0.127.0/path/mod.ts";
-import { isVoid } from "https://deno.land/x/freesia@v1.0.9/mod.ts";
+import { join } from "std/path/mod.ts";
+import { isVoid } from "freesia";
 import { root } from "../constant.ts";
 import { ajv, metaParser, Post } from "./post.ts";
 
@@ -47,8 +47,7 @@ async function findPostRecursively(
             const meta = metaParser(metaJSON);
             if (meta === undefined) {
                 throw new Error(
-                    `Meta info in ${targetPath} is invalid. Schema check error: \n${
-                        JSON.stringify(ajv.errors)
+                    `Meta info in ${targetPath} is invalid. Schema check error: \n${JSON.stringify(ajv.errors)
                     }`,
                 );
             }

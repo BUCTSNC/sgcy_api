@@ -1,4 +1,4 @@
-import { condition } from "https://deno.land/x/freesia@v1.0.8/mod.ts";
+import { condition } from "https://deno.land/x/freesia@v1.0.9/mod.ts";
 import { PostMetaInJSON } from "./post.ts";
 import { memoryDB } from "./db.ts";
 

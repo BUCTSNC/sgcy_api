@@ -1,5 +1,10 @@
 {
     "lint": {
+        "files": {
+            "exclude": [
+                "static"
+            ]
+        },
         "rules": {
             "tags": [
                 "recommended"
@@ -13,6 +18,11 @@
         }
     },
     "fmt": {
+        "files": {
+            "exclude": [
+                "static"
+            ]
+        },
         "options": {
             "indentWidth": 4,
             "singleQuote": false,

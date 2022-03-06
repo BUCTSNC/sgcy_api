@@ -4,7 +4,7 @@ import {
     Get,
     parseURL,
     shimHTTP,
-} from "https://deno.land/x/freesia@v1.0.8/mod.ts";
+} from "https://deno.land/x/freesia@v1.0.9/mod.ts";
 import { serve } from "https://deno.land/std@0.127.0/http/server.ts";
 import fileHandler from "./handlers/fileHandler.ts";
 import searchHandler from "./handlers/serachHandler.ts";

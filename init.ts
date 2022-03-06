@@ -1,5 +1,5 @@
 import { join } from "https://deno.land/std@0.127.0/path/win32.ts";
-import { isVoid } from "https://deno.land/x/freesia@v1.0.8/mod.ts";
+import { isVoid } from "https://deno.land/x/freesia@v1.0.9/mod.ts";
 import { initDB } from "./memoryDB/db.ts";
 import {
     inner,

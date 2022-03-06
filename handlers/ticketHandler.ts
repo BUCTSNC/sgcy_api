@@ -1,4 +1,4 @@
-import { Empty, resJson } from "https://deno.land/x/freesia@v1.0.8/mod.ts";
+import { Empty, resJson } from "https://deno.land/x/freesia@v1.0.9/mod.ts";
 import { sign, toBase64Url } from "../services/ticket.ts";
 
 const ticketHandler = async (_: Empty) => {

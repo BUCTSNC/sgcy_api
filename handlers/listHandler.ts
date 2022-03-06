@@ -1,4 +1,4 @@
-import { condition, resJson } from "https://deno.land/x/freesia@v1.0.8/mod.ts";
+import { condition, resJson } from "https://deno.land/x/freesia@v1.0.9/mod.ts";
 import {
     outerDaily,
     outerMonthly,

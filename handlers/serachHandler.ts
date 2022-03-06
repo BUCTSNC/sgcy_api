@@ -3,7 +3,7 @@ import {
     Empty,
     parseURL,
     resJson,
-} from "https://deno.land/x/freesia@v1.0.8/mod.ts";
+} from "https://deno.land/x/freesia@v1.0.9/mod.ts";
 import { metaQuery, SearchableFields } from "../memoryDB/metaQuery.ts";
 import { like } from "../utils/RegExpUtils.ts";
 import escapeStringRegExp from "https://esm.sh/escape-string-regexp";

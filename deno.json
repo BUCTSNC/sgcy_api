@@ -1,9 +1,15 @@
 {
     "lint": {
         "rules": {
-            "tags": ["recommended"],
-            "include": ["ban-untagged-todo"],
-            "exclude": ["require-await"]
+            "tags": [
+                "recommended"
+            ],
+            "include": [
+                "ban-untagged-todo"
+            ],
+            "exclude": [
+                "require-await"
+            ]
         }
     },
     "fmt": {
@@ -12,5 +18,10 @@
             "singleQuote": false,
             "lineWidth": 80
         }
+    },
+    "compilerOptions": {
+        "jsx": "react",
+        "jsxFactory": "React.createElement",
+        "jsxFragmentFactory": "React.Fragment"
     }
 }

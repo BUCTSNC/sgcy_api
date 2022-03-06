@@ -10,7 +10,7 @@ import {
     visitLogParser,
     visitLogSerializer,
 } from "./memoryDB/logger.ts";
-import { root } from "./server.ts";
+import { root } from "./constant.ts";
 
 export default function init() {
     // 启动时初始化数据库

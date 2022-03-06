@@ -1,4 +1,6 @@
 docs/
+static/*
+!static/index.html
 # For *nix
 server
 # For Windows

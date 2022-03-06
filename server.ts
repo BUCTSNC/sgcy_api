@@ -11,9 +11,8 @@ import searchHandler from "./handlers/serachHandler.ts";
 import listHandler from "./handlers/listHandler.ts";
 import init from "./init.ts";
 import ticketHandler from "./handlers/ticketHandler.ts";
-import fallbackHandler from "./handlers/fallbackHandler.ts";
 import { listen } from "./constant.ts";
-import { ssrHandler } from "./handlers/ssrHandler.tsx";
+import ssrHandler from "./handlers/ssrHandler.tsx";
 
 const { switcher } = createSwRtX
     .route("/file/<uuid>/<filepath>", Get(fileHandler))

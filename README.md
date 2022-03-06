@@ -15,8 +15,8 @@ Node.js 和 NPM 的情况下下载 esbuild。
 
 程序的入口是`server.ts`，你可以进行：
 
-- 运行：`deno run --watch --allow-net --allow-read --allow-write server.ts`
-- 编译：`deno compile --allow-net --allow-read --allow-write server.ts`
+- 运行：`deno run --watch --allow-net --allow-read --allow-write --import-map=./import_map.json server.ts`
+- 编译：`deno compile --allow-net --allow-read --allow-write --import-map=./import_map.json server.ts`
 - 打包前端内容：`esbuild --bundle --format=esm views/App.tsx --outfile=static/App.js --minify`，如果有调试需求，去除`--minify`参数，增加`--sourcemap`参数。
 
 ## 目录

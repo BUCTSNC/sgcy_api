@@ -9,10 +9,13 @@ UUID）和`--allow-read`（读取文件）参数。
 
 > 除非你有超级多核心，否则不要使用 cargo 来安装，要命。
 
+此外要将 SSR 的 TSX 文件打包成静态文件，还需要安装 esbuild，[这里](https://esbuild.github.io/getting-started/#download-a-build)可以在没有 Node.js 和 NPM 的情况下下载 esbuild。
+
 程序的入口是`server.ts`，你可以进行：
 
 - 运行：`deno run --watch --allow-net --allow-read --allow-write server.ts`
 - 编译：`deno compile --allow-net --allow-read --allow-write server.ts`
+- 打包前端内容：`esbuild --bundle --format=esm views/main.ts --outfile=static/main.js --minify`，如果有调试需求，去除`--minify`参数，增加`--sourcemap`参数。
 
 ## 目录
 
@@ -29,10 +32,10 @@ UUID）和`--allow-read`（读取文件）参数。
 
 ```ts
 type PostMetaInJSON = {
-    title: string;
-    introduction: string;
-    authors: string[];
-    tags: string[];
+  title: string;
+  introduction: string;
+  authors: string[];
+  tags: string[];
 };
 ```
 
@@ -40,10 +43,10 @@ type PostMetaInJSON = {
 
 ```json
 {
-    "title": "通过VPN在校外访问学术资源",
-    "introduction": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
-    "authors": ["张三", "李四"],
-    "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
+  "title": "通过VPN在校外访问学术资源",
+  "introduction": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
+  "authors": ["张三", "李四"],
+  "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
 }
 ```
 

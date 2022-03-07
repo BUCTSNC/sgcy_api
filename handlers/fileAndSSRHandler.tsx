@@ -8,7 +8,6 @@ import { StaticRouter } from "react-router-dom";
 import { renderToString } from "ReactDOMServer";
 import { staticRoot } from "../constant.ts";
 import App from "../views/App.tsx";
-import * as esbuild from "esbuild";
 
 const indexHTML =
     `
@@ -40,11 +39,7 @@ const mainJS = await Deno.emit("./views/main.tsx", {
         removeComments: true
     }
 })
-    .then(result => result.files["deno:///bundle.js"])
-    .then(js => esbuild.transform(js, {
-        minify: true, loader: "js"
-    }))
-    .then(result => result.code);
+    .then(result => result.files["deno:///bundle.js"]);
 
 
 const mainJSHandler = async () => {

@@ -1,7 +1,7 @@
 {
-  "deno.enable": true,
-  "deno.lint": true,
-  "deno.unstable": false,
-  "deno.importMap": "./import_map.json",
-  "editor.detectIndentation": true
+    "deno.enable": true,
+    "deno.lint": true,
+    "deno.unstable": true,
+    "deno.importMap": "./import_map.json",
+    "editor.detectIndentation": true
 }

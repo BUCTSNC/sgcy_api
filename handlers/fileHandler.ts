@@ -28,7 +28,7 @@ function getPostPath(uuid: string): string | null {
 }
 
 const postFileHandler = (
-    params: { uuid: string; filepath: string; },
+    params: { uuid: string; filepath: string },
     _req: Request,
 ): Promise<Respond> =>
     compute(getPostPath(params.uuid))

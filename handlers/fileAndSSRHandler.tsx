@@ -9,8 +9,7 @@ import { renderToString } from "ReactDOMServer";
 import { staticRoot } from "../constant.ts";
 import App from "../views/App.tsx";
 
-const indexHTML =
-    `
+const indexHTML = `
 <!DOCTYPE html>
 <html>
   <head>
@@ -27,7 +26,8 @@ const indexHTML =
 </html>
 `;
 
-const indexHandler = async () => createRes(indexHTML, ["Content-Type", "text/html; charset=UTF-8"]);
+const indexHandler = async () =>
+    createRes(indexHTML, ["Content-Type", "text/html; charset=UTF-8"]);
 
 const mainJS = await Deno.emit("./views/main.tsx", {
     bundle: "module",
@@ -36,18 +36,17 @@ const mainJS = await Deno.emit("./views/main.tsx", {
         module: "esnext",
         lib: ["dom", "dom.iterable", "dom.asynciterable", "deno.ns"],
         sourceMap: false,
-        removeComments: true
-    }
+        removeComments: true,
+    },
 })
-    .then(result => result.files["deno:///bundle.js"]);
-
+    .then((result) => result.files["deno:///bundle.js"]);
 
 const mainJSHandler = async () => {
     return createRes(mainJS, ["Content-Type", "application/javascript"]);
 };
 
 const staticFileHandler = async (
-    params: { filepath: string; },
+    params: { filepath: string },
 ): Promise<Respond> => {
     return compute(join(staticRoot, params.filepath))
         .mapSkipNull((fullPath) => Deno.open(fullPath).catch(() => null))
@@ -69,11 +68,14 @@ const staticFileHandler = async (
 
 const ssrHandler = async (url: string, req: Request) => {
     return createRes(
-        indexHTML.replace("<!-- SSR -->", renderToString(
-            <StaticRouter location={url}>
-                <App></App>
-            </StaticRouter>
-        )),
+        indexHTML.replace(
+            "<!-- SSR -->",
+            renderToString(
+                <StaticRouter location={url}>
+                    <App></App>
+                </StaticRouter>,
+            ),
+        ),
         [
             "Content-Type",
             "text/html; charset=UTF-8",

@@ -33,6 +33,10 @@
     "compilerOptions": {
         "jsx": "react",
         "jsxFactory": "React.createElement",
-        "jsxFragmentFactory": "React.Fragment"
+        "jsxFragmentFactory": "React.Fragment",
+        "lib": [
+            "deno.window",
+            "deno.unstable"
+        ]
     }
 }

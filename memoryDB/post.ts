@@ -1,6 +1,6 @@
 import Ajv, { JTDSchemaType } from "Ajv_jtd";
 
-export const ajv = new Ajv();
+export const ajv = new Ajv({ parseDate: true });
 
 const metaSchema: JTDSchemaType<PostMetaInJSON> = {
     properties: {
@@ -31,3 +31,14 @@ export type PostMetaInFS = {
 };
 
 export type Post = PostMetaInFS & PostMetaInJSON;
+
+export type PostSend = Omit<Post, "directory">;
+
+export const PostSendSchema: JTDSchemaType<PostSend> = {
+    properties: {
+        ...metaSchema.properties, uuid: { type: "string" }, timestamp: { type: "timestamp" }
+    }
+};
+
+export const postSendSerializer = ajv.compileSerializer(PostSendSchema);
+export const postSendParser = ajv.compileParser(PostSendSchema);

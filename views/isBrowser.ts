@@ -1,3 +1,3 @@
-const isBrowser = () => globalThis.Deno === undefined;
+const isBrowser = () => !("Deno" in globalThis);
 
 export default isBrowser;

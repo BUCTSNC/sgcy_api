@@ -3,7 +3,7 @@ import escapeStringRegExp from "escaep_string_regexp";
 import { metaQuery, SearchableFields } from "../memoryDB/metaQuery.ts";
 import { like } from "../utils/RegExpUtils.ts";
 
-const searchHandler = async (_: Empty, req: Request) => {
+export const searchForPosts = async (req: Request) => {
     const { searchParams } = parseURL(req);
     // 根据keywords和制定的fields生成where条件
     const keywords = searchParams.getAll("keywords").map(escapeStringRegExp);
@@ -41,7 +41,11 @@ const searchHandler = async (_: Empty, req: Request) => {
         where,
         duration,
     });
-    return resJson(result);
+    return result;
+};
+
+const searchHandler = async (_: Empty, req: Request) => {
+    return resJson(await searchForPosts(req));
 };
 
 export default searchHandler;

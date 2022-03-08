@@ -18,13 +18,13 @@ export const mainJS = await Deno.emit("./views/main.tsx", {
 
 console.log("emitted");
 
-// await esbuild.transform(mainJS, {
-//     minify: true, minifyWhitespace: true, minifyIdentifiers: true, minifySyntax: true,
-//     format: "esm", treeShaking: true
-// }).then(content => {
-//     return Deno.writeTextFile("static/main.js", content.code);
-// });
+await esbuild.transform(mainJS, {
+    minify: true, minifyWhitespace: true, minifyIdentifiers: true, minifySyntax: true,
+    format: "esm", treeShaking: true
+}).then(content => {
+    return Deno.writeTextFile("static/main.js", content.code);
+});
 
-await Deno.writeTextFile("static/main.js", mainJS);
+// await Deno.writeTextFile("static/main.js", mainJS);
 
 Deno.exit(0);

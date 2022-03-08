@@ -1,4 +1,4 @@
-import { condition } from "freesia";
+import { condition } from "../deps/freesia.ts";
 import { PostMetaInJSON } from "./post.ts";
 import { memoryDB } from "./db.ts";
 

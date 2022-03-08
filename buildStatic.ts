@@ -5,7 +5,6 @@ console.log("started");
 
 export const mainJS = await Deno.emit("./views/main.tsx", {
     bundle: "module",
-    importMapPath: "./import_map.json",
     compilerOptions: {
         inlineSourceMap: true,
         target: "esnext",
@@ -19,11 +18,13 @@ export const mainJS = await Deno.emit("./views/main.tsx", {
 
 console.log("emitted");
 
-await esbuild.transform(mainJS, {
-    minify: true, minifyWhitespace: true, minifyIdentifiers: true, minifySyntax: true,
-    format: "esm"
-}).then(content => {
-    return Deno.writeTextFile("static/main.js", content.code);
-});
+// await esbuild.transform(mainJS, {
+//     minify: true, minifyWhitespace: true, minifyIdentifiers: true, minifySyntax: true,
+//     format: "esm", treeShaking: true
+// }).then(content => {
+//     return Deno.writeTextFile("static/main.js", content.code);
+// });
+
+await Deno.writeTextFile("static/main.js", mainJS);
 
 Deno.exit(0);

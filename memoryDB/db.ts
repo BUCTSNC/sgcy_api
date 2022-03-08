@@ -1,7 +1,9 @@
-import { join } from "std/path/mod.ts";
-import { isVoid } from "freesia";
+import { path } from "../deps/std.ts";
+import { isVoid } from "../deps/freesia.ts";
 import { root } from "../constant.ts";
 import { ajv, metaParser, Post } from "./post.ts";
+
+const { join } = path;
 
 type MemoryDB = Post[];
 
@@ -47,8 +49,7 @@ async function findPostRecursively(
             const meta = metaParser(metaJSON);
             if (meta === undefined) {
                 throw new Error(
-                    `Meta info in ${targetPath} is invalid. Schema check error: \n${
-                        JSON.stringify(ajv.errors)
+                    `Meta info in ${targetPath} is invalid. Schema check error: \n${JSON.stringify(ajv.errors)
                     }`,
                 );
             }

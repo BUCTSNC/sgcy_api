@@ -1,6 +1,4 @@
-import { Status } from "std/http/http_status.ts";
-import { extname, join } from "std/path/mod.ts";
-import { readableStreamFromReader } from "std/streams/mod.ts";
+import { httpStatus, path, readableStreamFromReader } from "../deps/std.ts";
 import {
     Computation,
     compute,
@@ -8,15 +6,17 @@ import {
     createRes,
     isVoid,
     parseURL,
-} from "freesia";
-import { lookup } from "media_types";
-import escapeStringRegExp from "escaep_string_regexp";
+} from "../deps/freesia.ts";
+import { lookup } from "../deps/mediaTypes.ts";
+import { escapeStringRegExp } from "../deps/escapeStringRegExp.ts";
 import { metaQuery } from "../memoryDB/metaQuery.ts";
 import { exact } from "../utils/RegExpUtils.ts";
 import { root } from "../constant.ts";
 import { logVisit } from "../memoryDB/logger.ts";
 import { validate } from "../services/ticket.ts";
 import { Post } from "../memoryDB/post.ts";
+
+const { join, extname } = path;
 
 export function getPostMeta(uuid: string): Post | null {
     const results = metaQuery({
@@ -57,7 +57,7 @@ const postFileHandler = (
         (result) =>
             result === null
                 ? createRes(
-                    Status.NotFound,
+                    httpStatus.NotFound,
                     `No such file ${params.filepath} in archive ${params.uuid}`,
                 )
                 : createRes(result, {
@@ -74,7 +74,7 @@ const visitLogger = createEffect<typeof postFileHandler>(
             if (
                 filepath === "index.md" &&
                 searchParams.get("firstVisit") !== null &&
-                (await res).status === Status.OK
+                (await res).status === httpStatus.OK
             ) {
                 const secret = searchParams.get("secret");
                 const signature = searchParams.get("signature");

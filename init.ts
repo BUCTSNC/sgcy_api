@@ -1,5 +1,5 @@
-import { join } from "std/path/mod.ts";
-import { isVoid } from "freesia";
+import { path } from "./deps/std.ts";
+import { isVoid } from "./deps/freesia.ts";
 import { initDB } from "./memoryDB/db.ts";
 import {
     inner,
@@ -11,6 +11,8 @@ import {
     visitLogSerializer,
 } from "./memoryDB/logger.ts";
 import { root } from "./constant.ts";
+
+const { join } = path;
 
 export default function init() {
     // 启动时初始化数据库

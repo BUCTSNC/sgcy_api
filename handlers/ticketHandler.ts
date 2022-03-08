@@ -1,4 +1,4 @@
-import { Empty, resJson } from "freesia";
+import { Empty, resJson } from "../deps/freesia.ts";
 import { sign, toBase64Url } from "../services/ticket.ts";
 
 const ticketHandler = async (_: Empty) => {

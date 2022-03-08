@@ -1,5 +1,5 @@
-import { compute, Empty, parseURL, resJson } from "freesia";
-import escapeStringRegExp from "escaep_string_regexp";
+import { compute, Empty, parseURL, resJson } from "../deps/freesia.ts";
+import { escapeStringRegExp } from "../deps/escapeStringRegExp.ts";
 import { metaQuery, SearchableFields } from "../memoryDB/metaQuery.ts";
 import { like } from "../utils/RegExpUtils.ts";
 

@@ -1,26 +1,21 @@
-import { extname, join } from "std/path/mod.ts";
-import { Status } from "std/http/http_status.ts";
-import { readableStreamFromReader } from "std/streams/mod.ts";
-import { compute, createRes, Respond } from "freesia";
-import { lookup } from "media_types";
+import { path, httpStatus, readableStreamFromReader } from "../deps/std.ts";
+import { compute, createRes, Respond } from "../deps/freesia.ts";
+import { lookup } from "../deps/mediaTypes.ts";
 import { staticRoot } from "../constant.ts";
 
-export const indexHTML = `
-<!DOCTYPE html>
+const { join, extname } = path;
+
+export const indexHTML = `<!DOCTYPE html>
 <html>
   <head>
     <title>胜古朝阳</title>
     <meta charset="UTF-8" />
-  </head>
-
-  <body>
     <script src="/static/main.js" type="module"></script>
-    <div id="App">
-      <!-- SSR -->
-    </div>
+  </head>
+  <body>
+    <div id="App"><!-- SSR --></div>
   </body>
-</html>
-`;
+</html>`;
 
 export const indexHandler = async () =>
   createRes(indexHTML, ["Content-Type", "text/html; charset=UTF-8"]);
@@ -41,7 +36,7 @@ export const staticFileHandler = async (
       ])
     )
     .aIfNull(() =>
-      createRes(Status.NotFound, `No such file ${params.filepath}`)
+      createRes(httpStatus.NotFound, `No such file ${params.filepath}`)
     )
     .value;
 };

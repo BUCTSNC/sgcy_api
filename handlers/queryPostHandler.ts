@@ -1,5 +1,5 @@
 import { getPostMeta } from "./postFileHandler.ts";
-import { createRes, resJson } from "freesia";
+import { createRes, resJson } from "../deps/freesia.ts";
 
 export const queryPostHandler = async (params: { uuid: string; }) => {
     const result = getPostMeta(params.uuid);

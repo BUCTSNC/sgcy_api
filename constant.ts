@@ -1,4 +1,5 @@
-import { join } from "https://deno.land/std@0.127.0/path/mod.ts";
+import { path } from "./deps/std.ts";
+const { join } = path;
 
 export const staticRoot = join(Deno.cwd(), "static");
 export const root = join(Deno.cwd(), "docs");

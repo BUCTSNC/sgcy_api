@@ -1,7 +1,7 @@
-import { renderToString } from "react-dom/server";
-import { StaticRouter } from "react-router-dom";
-import React from "react";
-import { createRes, createSwRtX, Empty } from "freesia";
+import {
+    React, StaticRouter, renderToString
+} from "../deps/react.ts";
+import { createRes, createSwRtX, Empty } from "../deps/freesia.ts";
 import { indexHTML } from "./staticFileHandler.ts";
 import App, { State } from "../views/App.tsx";
 import {

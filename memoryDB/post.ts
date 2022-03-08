@@ -1,4 +1,4 @@
-import Ajv, { JTDSchemaType } from "Ajv_jtd";
+import { Ajv, JTDSchemaType } from "../deps/ajvJTD.ts";
 
 export const ajv = new Ajv({ parseDate: true });
 

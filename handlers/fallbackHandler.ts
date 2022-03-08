@@ -1,6 +1,6 @@
-import { Status } from "std/http/http_status.ts";
-import { createRes } from "freesia";
+import { httpStatus } from "../deps/std.ts";
+import { createRes } from "../deps/freesia.ts";
 
 const fallbackHandler = async (url: string, req: Request) =>
-    createRes(Status.NotFound, `No route matched ${req.method} ${url}`);
+    createRes(httpStatus.NotFound, `No route matched ${req.method} ${url}`);
 export default fallbackHandler;

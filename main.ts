@@ -1,4 +1,4 @@
-import { createSwRtX, EntryPoint, Get, parseURL, shimHTTP } from "freesia";
+import { createSwRtX, EntryPoint, Get, parseURL, shimHTTP } from "./deps/freesia.ts";
 import fileHandler from "./handlers/postFileHandler.ts";
 import searchHandler from "./handlers/serachHandler.ts";
 import listHandler from "./handlers/listHandler.ts";

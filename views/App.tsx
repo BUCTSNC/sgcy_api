@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route, useHistory, useParams } from "react-router-dom";
+import { React, useEffect, useState, Routes, Route, useNavigate, useParams } from "../deps/react.ts";
 import { PostSend, postSendParser } from "../memoryDB/post.ts";
 import isBrowser from "./isBrowser.ts";
-import { marked } from "marked";
+import { marked } from "../deps/marked.ts";
 
 export type State = {
     hotList: {
@@ -21,23 +20,22 @@ export type State = {
 export function App(state: State = {
     hotList: { daily: [], weekly: [], monthly: [], yearly: [] }
 }) {
-    const history = useHistory();
+    const navi = useNavigate();
     return (
-        <div>
+        <>
             <h1>hello, world</h1>
-            <p>This page rendered in {isBrowser() ? "browser" : "deno"}</p>
-            <button onClick={() => history.push("/")}>主页</button>
+            <button onClick={() => navi("/")}>主页</button>
             <button
                 onClick={() =>
-                    history.push("/p/" + btoa(String(Math.random())) + "/")}
+                    navi("/p/" + btoa(String(Math.random())) + "/")}
             >
                 随机页面
             </button>
-            <Switch>
-                <Route path="/"><Welcome count={0} /></Route>
-                <Route path="/p/:uuid/"><PostPage post={state.post} /></Route>
-            </Switch>
-        </div>
+            <Routes>
+                <Route path="/" element={<Welcome count={0} />}></Route>
+                <Route path="/p/:uuid/" element={<PostPage post={state.post} />}></Route>
+            </Routes>
+        </>
     );
 }
 
@@ -81,7 +79,7 @@ function PostPage(props: { post: State["post"]; }) {
             .then(setPost)
             .catch(() => void (0));
     }, [uuid]);
-    return <div dangerouslySetInnerHTML={{ __html: marked.parse(post.indexMD) }}></div>;
+    return <div id="content" dangerouslySetInnerHTML={{ __html: marked.parse(post.indexMD) }}></div>;
 }
 
 export default App;

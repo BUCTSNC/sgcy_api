@@ -1,7 +1,5 @@
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import { React, ReactDOM, BrowserRouter } from "../deps/react.ts";
 import App from "./App.tsx";
-import React from "react";
 
 ReactDOM.hydrate(
     <BrowserRouter>

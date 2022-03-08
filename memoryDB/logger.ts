@@ -1,5 +1,5 @@
-import { isVoid } from "freesia";
-import Ajv, { JTDSchemaType } from "Ajv_jtd";
+import { isVoid } from "../deps/freesia.ts";
+import { Ajv, JTDSchemaType } from "../deps/ajvJTD.ts";
 
 const ajv = new Ajv({
     int32range: false,
@@ -27,8 +27,8 @@ const schema: JTDSchemaType<DataOnFs> = {
 export const visitLogSerializer = ajv.compileSerializer(schema);
 export const visitLogParser = ajv.compileParser(schema);
 
-type Inner = { uuid: string; visited: number[] }[];
-export type Outer = { uuid: string; visited: number }[];
+type Inner = { uuid: string; visited: number[]; }[];
+export type Outer = { uuid: string; visited: number; }[];
 type DataOnFs = {
     date: Date;
     inner: Inner;

@@ -37,12 +37,12 @@ export function metaQuery(query: MetaQueryOption, db = memoryDB) {
                         return matched;
                     },
                 )
-                // 对于title和introduction，直接根据正则表达匹配
+                // 对于title和intro，直接根据正则表达匹配
                 .match(
-                    ["title", "introduction"],
+                    ["title", "intro"],
                     (key) =>
                         inDuration.filter((p) =>
-                            re.exec(p[key as "title" | "introduction" | "uuid"])
+                            re.exec(p[key as "title" | "intro" | "uuid"])
                         ),
                 )
                 // 对于authors和tags，检查数组中是否有符合目标的值

@@ -11,15 +11,16 @@ export let memoryDB: MemoryDB = [];
 
 // find posts from fs
 async function findPostRecursively(
-    targetPath: string,
+    targetPath: string[],
     strict = false,
 ): Promise<Post[]> {
     // 查找子目录中的Post
     let subPosts: Post[] = [];
-    for await (const entry of Deno.readDir(join(root, targetPath))) {
+    for await (const entry of Deno.readDir(join(root, ...targetPath))) {
         if (entry.isDirectory) {
             const postsInDir = await findPostRecursively(
-                join(targetPath, entry.name),
+                [...targetPath, entry.name],
+                strict,
             );
             subPosts = [...subPosts, ...postsInDir];
         }
@@ -27,7 +28,7 @@ async function findPostRecursively(
     // 检查当前目录是否是Post
     const [indexMDStat, metaJSONStat, uuidStat] = await Promise.all(
         ["index.md", "meta.json", ".uuid"].map((filename) =>
-            Deno.stat(join(root, targetPath, filename)).catch(() => null)
+            Deno.stat(join(root, ...targetPath, filename)).catch(() => null)
         ),
     );
     // 如果存在meta.json或index.md中的任意一个，但不存在另一个，或者都存在但其中一个不是文件时，退出程序
@@ -43,25 +44,28 @@ async function findPostRecursively(
     }
     if (metaJSONStat?.isFile) {
         const metaJSON = await Deno.readTextFile(
-            join(root, targetPath, "meta.json"),
+            join(root, ...targetPath, "meta.json"),
         );
         try {
             const meta = metaParser(metaJSON);
             if (meta === undefined) {
                 throw new Error(
-                    `Meta info in ${targetPath} is invalid. Schema check error: \n${JSON.stringify(ajv.errors)
+                    `Meta info in ${
+                        targetPath.join("/")
+                    } is invalid. Schema check error: \n${
+                        JSON.stringify(ajv.errors)
                     }`,
                 );
             }
             const timestamp = indexMDStat?.mtime ?? new Date();
             if (isVoid(uuidStat)) {
                 await Deno.writeTextFile(
-                    join(root, targetPath, ".uuid"),
+                    join(root, ...targetPath, ".uuid"),
                     crypto.randomUUID(),
                 );
             }
             const uuid = await Deno.readTextFile(
-                join(root, targetPath, ".uuid"),
+                join(root, ...targetPath, ".uuid"),
             );
             return [...subPosts, {
                 uuid,
@@ -71,7 +75,9 @@ async function findPostRecursively(
             }];
         } catch (errors) {
             console.log(
-                `Error happend when parse Post in ${targetPath}, ignore it.`,
+                `Error happend when parse Post in ${
+                    targetPath.join("/")
+                }, ignore it.`,
             );
             console.log(errors);
             if (strict) Deno.exit(1);
@@ -83,7 +89,7 @@ async function findPostRecursively(
 
 // init db and return amount of posts
 export async function initDB(strict = false) {
-    memoryDB = await findPostRecursively(".", strict);
+    memoryDB = await findPostRecursively(["."], strict);
     console.log(
         `${new Date().toLocaleString()} ${memoryDB.length} posts detected.`,
     );

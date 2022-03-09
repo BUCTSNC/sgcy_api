@@ -1,4 +1,4 @@
-import { React, ReactDOM, BrowserRouter } from "../deps/react.ts";
+import { BrowserRouter, React, ReactDOM } from "../deps/react.ts";
 import App from "./App.tsx";
 
 ReactDOM.hydrate(

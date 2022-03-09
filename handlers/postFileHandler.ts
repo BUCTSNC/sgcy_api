@@ -29,16 +29,15 @@ export function getPostMeta(uuid: string): Post | null {
 
 function getPostPath(uuid: string): string | null {
     return compute(getPostMeta(uuid))
-        .mapSkipNull(post => join(root, post.directory))
-        .value;
+        .mapSkipNull((post) => join(root, ...post.directory)).value;
 }
 
 export const getPostFile = (
-    params: { uuid: string; filepath: string; },
+    params: { uuid: string; filepath: string },
 ): Computation<Promise<Deno.FsFile | null>> =>
     compute(getPostPath(params.uuid))
         .mapSkipNull(escapeStringRegExp)
-        .mapSkipNull((postPath) => join(postPath, params.filepath))
+        .mapSkipNull((postPath) => join(postPath, decodeURI(params.filepath)))
         .mapSkipNull((fullPath) =>
             Deno.open(fullPath, { read: true, write: false }).catch(() => null)
         )
@@ -49,7 +48,7 @@ export const getPostFile = (
         });
 
 const postFileHandler = (
-    params: { uuid: string; filepath: string; },
+    params: { uuid: string; filepath: string },
     _req: Request,
 ) => getPostFile(params)
     .aMapSkipNull(readableStreamFromReader)
@@ -65,7 +64,7 @@ const postFileHandler = (
                         "application/octect-stream",
                 }),
     )
-        .value;
+    .value;
 
 const visitLogger = createEffect<typeof postFileHandler>(
     ({ uuid, filepath }, req) =>

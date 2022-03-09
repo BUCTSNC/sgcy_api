@@ -1,6 +1,4 @@
-import {
-    React, StaticRouter, renderToString
-} from "../deps/react.ts";
+import { React, renderToString, StaticRouter } from "../deps/react.ts";
 import { createRes, createSwRtX, Empty } from "../deps/freesia.ts";
 import { indexHTML } from "./staticFileHandler.ts";
 import App, { State } from "../views/App.tsx";
@@ -34,7 +32,8 @@ const { switcher } = createSwRtX
                     return {
                         post: {
                             meta: {
-                                ...meta, directory: undefined
+                                ...meta,
+                                directory: undefined,
                             },
                             indexMD: await new Blob([content]).text(),
                         },
@@ -45,13 +44,15 @@ const { switcher } = createSwRtX
                         meta: {
                             uuid: "404",
                             title: "内容未找到",
-                            introduction: "文章可能被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。",
+                            intro: "被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。",
                             tags: [] as string[],
                             authors: [] as string[],
-                            timestamp: new Date()
+                            editors: [] as string[],
+                            timestamp: new Date(),
                         },
-                        indexMD: "## 没有找到对应的内容\n\n文章可能被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。"
-                    }
+                        indexMD:
+                            "## 没有找到对应的内容\n\n文章可能被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。",
+                    },
                 }))
                 .value,
     )
@@ -79,8 +80,12 @@ const ssrHandler = async (url: string, req: Request) => {
             "<!-- SSR -->",
             renderToString(
                 <StaticRouter location={url}>
-                    <App hotList={hotList} post={post} searchResults={searchResults} />
-                </StaticRouter>
+                    <App
+                        hotList={hotList}
+                        post={post}
+                        searchResults={searchResults}
+                    />
+                </StaticRouter>,
             ),
         ),
         [

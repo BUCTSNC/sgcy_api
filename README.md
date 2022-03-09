@@ -11,8 +11,9 @@ UUID）和`--allow-read`（读取文件）参数。
 
 程序的入口是`server.ts`，你可以进行：
 
-- 运行：`deno run --watch --allow-net --allow-read --allow-write --unstable --import-map=./import_map.json server.ts`
-- 编译：`deno compile --allow-net --allow-read --allow-write --unstable --import-map=./import_map.json server.ts`
+- 运行：`deno run --watch --allow-net --allow-read --allow-write server.ts`
+- 编译：`deno compile --allow-net --allow-read --allow-write server.ts`
+- 编译 main.js：`deno compile --allow-net --allow-read --allow-write --allow-env --allow-run --unstable generateMainJS.ts`
 
 ## 目录
 
@@ -29,10 +30,10 @@ UUID）和`--allow-read`（读取文件）参数。
 
 ```ts
 type PostMetaInJSON = {
-    title: string;
-    introduction: string;
-    authors: string[];
-    tags: string[];
+  title: string;
+  intro: string;
+  authors: string[];
+  tags: string[];
 };
 ```
 
@@ -40,15 +41,15 @@ type PostMetaInJSON = {
 
 ```json
 {
-    "title": "通过VPN在校外访问学术资源",
-    "introduction": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
-    "authors": ["张三", "李四"],
-    "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
+  "title": "通过VPN在校外访问学术资源",
+  "intro": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
+  "authors": ["张三", "李四"],
+  "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
 }
 ```
 
 - title：文章的标题
-- introduction：文章的介绍
+- intro：文章的介绍
 - authros：文章的作者列表
 - tags：文章的关键词列表
 
@@ -59,7 +60,7 @@ type PostMetaInJSON = {
 搜索接口的路径是`/search`，通过查询字符串来添加搜索信息。查询参数包括：
 
 - keywords: 查询关键词，可以有若干个，例如`&keywords=昌平&keywords=宿舍`。多个关键词结果取合集。
-- fields：查询字段名，有效的字段名有：`title`，`introduction`，`authors`，`tags`
+- fields：查询字段名，有效的字段名有：`title`，`intro`，`authors`，`tags`
 - limit：结果数目，最多输出若干条结果
 - asc：排序方式，设置为 0 或 1（若不为 1 的任意值，按照 desc 排列）
 - from：查询范围的起始时间（可选，默认为时间戳 0 点）
@@ -67,7 +68,7 @@ type PostMetaInJSON = {
 
 查询示例
 
-`http://hostname:port/serach?keywords=昌平&keywords=校园风光&fields=introduction&fields=tag&limit=10&asc=1&from=2020.12.31&to=2021.12.31`
+`http://hostname:port/serach?keywords=昌平&keywords=校园风光&fields=intro&fields=tag&limit=10&asc=1&from=2020.12.31&to=2021.12.31`
 
 ### 文件接口
 

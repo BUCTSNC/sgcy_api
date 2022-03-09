@@ -8,7 +8,7 @@ export const searchForPosts = async (req: Request) => {
     // 根据keywords和制定的fields生成where条件
     const keywords = searchParams.getAll("keywords").map(escapeStringRegExp);
     const fields = searchParams.getAll("fields").filter(
-        (field) => ["title", "introduction", "authors", "tags"].includes(field),
+        (field) => ["title", "intro", "authors", "tags"].includes(field),
     ) as SearchableFields[];
     const where = keywords.map<[SearchableFields, RegExp][]>(
         (keyword) => fields.map((field) => [field, like(keyword)]),

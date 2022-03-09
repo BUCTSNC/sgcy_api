@@ -16,7 +16,7 @@ const { join } = path;
 
 export default function init() {
     // 启动时初始化数据库
-    initDB(true);
+    initDB(false);
     // 每十分钟更新一次数据库
     setInterval(() => initDB(), 10 * 60 * 1000);
 

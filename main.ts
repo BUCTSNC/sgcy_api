@@ -4,6 +4,7 @@ import {
     EntryPoint,
     Get,
     parseURL,
+    Respond,
     shimHTTP,
 } from "./deps/freesia.ts";
 import fileHandler from "./handlers/postFileHandler.ts";
@@ -18,7 +19,7 @@ import ssrHandler from "./handlers/SSRHandler.tsx";
 import { queryPostHandler } from "./handlers/queryPostHandler.ts";
 import { httpStatus } from "./deps/std.ts";
 
-const { switcher } = createSwRtX
+const { switcher } = createSwRtX<Promise<Respond>, Request>()
     .route("/p/<uuid>/<filepath>", Get(fileHandler)) // 此处不会匹配/p/<uuid>/的情形
     .route("/search", Get(searchHandler))
     .route("/query/<uuid>/", Get(queryPostHandler))

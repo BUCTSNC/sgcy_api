@@ -14,10 +14,10 @@ import { Post } from "../memoryDB/post.ts";
 import { getPostFile } from "./postFileHandler.ts";
 import { searchForPosts } from "./serachHandler.ts";
 
-const { switcher } = createSwRtX
+const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
     .route(
         "/",
-        async (_: Empty, _req: Request) => ({} as Omit<State, "hotList">),
+        async (_: Empty, _req: Request) => ({}),
     )
     .route(
         "/p/<uuid>/",

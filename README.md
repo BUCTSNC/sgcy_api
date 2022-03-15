@@ -13,7 +13,12 @@ UUID）和`--allow-read`（读取文件）参数。
 
 - 运行：`deno run --watch --allow-net --allow-read --allow-write server.ts`
 - 编译：`deno compile --allow-net --allow-read --allow-write server.ts`
-- 编译 main.js：`deno compile --allow-net --allow-read --allow-write --allow-env --allow-run --unstable generateMainJS.ts`
+
+需要编译`./views`目录下的文件到`./static/main.js`，使用工具文件`generateMainJS.ts`可以完成：
+
+直接运行：`deno run --allow-net --allow-read --allow-write --allow-run --allow-env --unstable generateMainJS.ts`。
+
+显然很麻烦，可以先编译为二进制程序：`deno compile --allow-net --allow-read --allow-write --allow-run --allow-env --unstable generateMainJS.ts`，然后通过`./generateMainJS`调用就可以了。这个程序会自动监视`./views`目录，但一些类型定义的变动可能会发生于其他目录不会被监视到，此时保存`./views`下的任意文件，强制刷新即可。
 
 ## 目录
 

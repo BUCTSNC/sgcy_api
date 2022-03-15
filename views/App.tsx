@@ -6,9 +6,19 @@ import {
     useNavigate,
     useParams,
     useState,
+    createUseStyles
 } from "../deps/react.ts";
 import { PostSend, postSendParser } from "../memoryDB/post.ts";
 import { marked } from "../deps/marked.ts";
+
+const useStyles = createUseStyles({
+    app: {
+        "&:hover": {
+            backgroundColor: "#ff008c",
+            color: "#ffffff"
+        }
+    }
+})
 
 export type State = {
     hotList: {
@@ -28,8 +38,9 @@ export function App(state: State = {
     hotList: { daily: [], weekly: [], monthly: [], yearly: [] },
 }) {
     const navi = useNavigate();
+    const {app} = useStyles()
     return (
-        <>
+        <div className={app}>
             <h1>hello, world</h1>
             <button onClick={() => navi("/")}>主页</button>
             <button
@@ -45,7 +56,7 @@ export function App(state: State = {
                 >
                 </Route>
             </Routes>
-        </>
+        </div>
     );
 }
 

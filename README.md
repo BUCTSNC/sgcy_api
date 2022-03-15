@@ -35,10 +35,10 @@ UUID）和`--allow-read`（读取文件）参数。
 
 ```ts
 type PostMetaInJSON = {
-  title: string;
-  intro: string;
-  authors: string[];
-  tags: string[];
+    title: string;
+    intro: string;
+    authors: string[];
+    tags: string[];
 };
 ```
 
@@ -46,10 +46,10 @@ type PostMetaInJSON = {
 
 ```json
 {
-  "title": "通过VPN在校外访问学术资源",
-  "intro": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
-  "authors": ["张三", "李四"],
-  "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
+    "title": "通过VPN在校外访问学术资源",
+    "intro": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
+    "authors": ["张三", "李四"],
+    "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
 }
 ```
 

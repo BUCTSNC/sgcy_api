@@ -5,7 +5,10 @@ import { ajv, metaParser, Post } from "./post.ts";
 
 const { join } = path;
 
-const PostsNameSpace = await generate("00000000-0000-0000-0000-000000000000", await Deno.readFile(join(root, "namespace_seed")))
+const PostsNameSpace = await generate(
+    "00000000-0000-0000-0000-000000000000",
+    await Deno.readFile(join(root, "namespace_seed")),
+);
 
 type MemoryDB = Post[];
 
@@ -63,7 +66,10 @@ async function findPostRecursively(
             if (isVoid(uuidStat)) {
                 await Deno.writeTextFile(
                     join(root, ...targetPath, ".uuid"),
-                    await generate(PostsNameSpace, crypto.getRandomValues(new Uint8Array(8))),
+                    await generate(
+                        PostsNameSpace,
+                        crypto.getRandomValues(new Uint8Array(8)),
+                    ),
                 );
             }
             const uuid = await Deno.readTextFile(

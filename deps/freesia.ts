@@ -13,4 +13,4 @@ export {
     resJson,
     type Respond,
     shimHTTP,
-} from "https://deno.land/x/freesia@v1.0.9/mod.ts";
+} from "https://deno.land/x/freesia@v1.1.2/mod.ts";

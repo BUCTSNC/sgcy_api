@@ -10,6 +10,12 @@ export const indexHTML = `<!DOCTYPE html>
   <head>
     <title>胜古朝阳</title>
     <meta charset="UTF-8" />
+    <style>
+        html, body, #App {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
     <script src="/static/main.js" type="module"></script>
   </head>
   <body>

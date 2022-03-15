@@ -5,14 +5,14 @@ export {
     default as React,
     useEffect,
     useState,
-} from "https://cdn.esm.sh/v67/react?dev";
-export { default as ReactDOM } from "https://cdn.esm.sh/v67/react-dom?dev";
-export { renderToString } from "https://cdn.esm.sh/v67/react-dom/server?dev";
+} from "https://esm.sh/react@17.0.2?dev";
+export { default as ReactDOM } from "https://esm.sh/react-dom@17.0.2?dev";
+export { renderToString } from "https://esm.sh/react-dom@17.0.2/server?dev";
 export {
     BrowserRouter,
     Route,
     Routes,
     useNavigate,
     useParams,
-} from "https://cdn.esm.sh/v67/react-router-dom?dev";
-export { StaticRouter } from "https://cdn.esm.sh/v67/react-router-dom/server?dev";
+} from "https://esm.sh/react-router-dom@6.2.2?dev";
+export { StaticRouter } from "https://esm.sh/react-router-dom@6.2.2/server?dev&deps=@types/react@17.0.39";

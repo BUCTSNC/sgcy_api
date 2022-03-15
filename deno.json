@@ -36,7 +36,10 @@
         "jsxFactory": "React.createElement",
         "jsxFragmentFactory": "React.Fragment",
         "lib": [
-            "deno.window",
+            "dom",
+            "dom.iterable",
+            "dom.asynciterable",
+            "deno.ns",
             "deno.unstable"
         ]
     }

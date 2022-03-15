@@ -1,10 +1,10 @@
 import { marked } from "../../deps/marked.ts";
-import { React, useParams,useState,useEffect } from "../../deps/react.ts";
+import { React, useEffect, useParams, useState } from "../../deps/react.ts";
 import { postSendParser } from "../../memoryDB/post.ts";
 import { State } from "../App.tsx";
 
 export function PostPage(props: { post: State["post"] }) {
-    const { uuid } = useParams<{ uuid: string }>();
+    const { uuid } = useParams();
     const [post, setPost] = useState(
         props.post ?? {
             meta: {

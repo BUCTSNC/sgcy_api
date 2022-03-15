@@ -1,13 +1,9 @@
-import {
-    React,
-    Route,
-    Routes,
-    useNavigate
-} from "../deps/react.ts";
+import { Outlet, React, Route, Routes, useNavigate } from "../deps/react.ts";
 import { PostSend } from "../memoryDB/post.ts";
 import { PostPage } from "./PostPage/index.tsx";
 import { HomePage } from "./HomePage/index.tsx";
 import { useStyles } from "./Styles.ts";
+import { Header } from "./Layout/Header.tsx";
 
 export type State = {
     hotList: {
@@ -27,22 +23,25 @@ export function App(state: State = {
     hotList: { daily: [], weekly: [], monthly: [], yearly: [] },
 }) {
     const navi = useNavigate();
-    const {app} = useStyles()
+    const { app } = useStyles();
     return (
         <div className={app}>
-            <h1>hello, world</h1>
-            <button onClick={() => navi("/")}>主页</button>
-            <button
-                onClick={() => navi("/p/" + btoa(String(Math.random())) + "/")}
-            >
-                随机页面
-            </button>
             <Routes>
-                <Route path="/" element={<HomePage count={0} />}></Route>
-                <Route
-                    path="/p/:uuid/"
-                    element={<PostPage post={state.post} />}
-                >
+                <Route path="/" element={<React.Fragment>
+                    <Header />
+                    <Outlet />
+                </React.Fragment>}>
+                    <Route index element={<HomePage count={0} />}></Route>
+                    <Route
+                        path="p/:uuid/"
+                        element={<PostPage post={state.post} />}
+                    >
+                    </Route>
+                    <Route
+                        path="cate/:category"
+                        element={<div>目录</div>}
+                    >
+                    </Route>
                 </Route>
             </Routes>
         </div>

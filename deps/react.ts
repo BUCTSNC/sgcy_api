@@ -15,6 +15,8 @@ export {
     Routes,
     useNavigate,
     useParams,
+    useSearchParams,
+    Outlet
 } from "https://esm.sh/react-router-dom@6.2.2?dev";
 export { StaticRouter } from "https://esm.sh/react-router-dom@6.2.2/server?dev&deps=@types/react@17.0.39";
 export { createUseStyles } from "https://esm.sh/react-jss@10.9.0?dev&deps=@types/react@17.0.39";

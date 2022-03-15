@@ -1,5 +1,7 @@
 docs/
 # For *nix
 server
+generateMainJS
 # For Windows
 server.exe
+generateMainJS.exe

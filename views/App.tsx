@@ -1,4 +1,4 @@
-import { Outlet, React, Route, Routes, useNavigate } from "../deps/react.ts";
+import { Outlet, React, Route, Routes } from "../deps/react.ts";
 import { Post } from "../types/post.ts";
 import { PostPage } from "./PostPage/index.tsx";
 import { HomePage } from "./HomePage/index.tsx";
@@ -22,7 +22,6 @@ export type State = {
 export function App(state: State = {
     hotList: { daily: [], weekly: [], monthly: [], yearly: [] },
 }) {
-    const navi = useNavigate();
     const { app } = useStyles();
     return (
         <div className={app}>

@@ -26,28 +26,28 @@ async function findPostRecursively(
         }
     }
     // 检查当前目录是否是Post
-    const [indexMDStat, metaJSONStat, uuidStat] = await Promise.all(
-        ["index.md", "meta.json", ".uuid"].map((filename) =>
+    const [indexMDStat, metaYMLStat, uuidStat] = await Promise.all(
+        ["index.md", "meta.yml", ".uuid"].map((filename) =>
             Deno.stat(join(root, ...targetPath, filename)).catch(() => null)
         ),
     );
     // 如果存在meta.json或index.md中的任意一个，但不存在另一个，或者都存在但其中一个不是文件时，退出程序
     if (
-        isVoid(metaJSONStat) !== isVoid(indexMDStat) ||
-        metaJSONStat?.isFile !== indexMDStat?.isFile
+        isVoid(metaYMLStat) !== isVoid(indexMDStat) ||
+        metaYMLStat?.isFile !== indexMDStat?.isFile
     ) {
         console.log(
-            `Error: A post need has both file index.md and file meta.json. Post directory: ${targetPath}`,
+            `Error: A post need has both file index.md and file meta.yml. Post directory: ${targetPath}`,
         );
         if (strict) Deno.exit(1);
         return subPosts;
     }
-    if (metaJSONStat?.isFile) {
-        const metaJSON = await Deno.readTextFile(
-            join(root, ...targetPath, "meta.json"),
+    if (metaYMLStat?.isFile) {
+        const metaYML = await Deno.readTextFile(
+            join(root, ...targetPath, "meta.yml"),
         );
         try {
-            const meta = metaParser(metaJSON);
+            const meta = metaParser(metaYML);
             if (meta === undefined) {
                 throw new Error(
                     `Meta info in ${

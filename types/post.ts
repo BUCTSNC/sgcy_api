@@ -1,8 +1,9 @@
 import { Ajv, JTDSchemaType } from "../deps/ajvJTD.ts";
+import YAML from "../deps/YAML.ts"
 
 export const ajv = new Ajv({ parseDate: true });
 
-const metaSchema: JTDSchemaType<PostMetaInJSON> = {
+const metaSchema: JTDSchemaType<PostMetaInYAML> = {
     properties: {
         title: { type: "string" },
         intro: { type: "string" },
@@ -21,9 +22,17 @@ const metaSchema: JTDSchemaType<PostMetaInJSON> = {
     },
 };
 
-export const metaParser = ajv.compileParser(metaSchema);
+const metaChecker = ajv.compile(metaSchema);
+export const metaParser = (content: string) => {
+    const json = YAML.parse(content);
+    if (metaChecker(json)) {
+        return json
+    } else {
+        return undefined
+    }
+}
 
-export type PostMetaInJSON = {
+export type PostMetaInYAML = {
     title: string;
     intro: string;
     authors: string[];
@@ -38,7 +47,7 @@ export type PostMetaInFS = {
     timestamp: Date;
 };
 
-export type Post = PostMetaInFS & PostMetaInJSON;
+export type Post = PostMetaInFS & PostMetaInYAML;
 
 export const PostSchema: JTDSchemaType<Post> = {
     properties: {

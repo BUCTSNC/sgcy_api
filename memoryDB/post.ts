@@ -34,22 +34,23 @@ export type PostMetaInJSON = {
 
 export type PostMetaInFS = {
     uuid: string;
-    directory: string[];
+    category: string[];
     timestamp: Date;
 };
 
 export type Post = PostMetaInFS & PostMetaInJSON;
 
-export type PostSend = Omit<Post, "directory">;
-
-export const PostSendSchema: JTDSchemaType<PostSend> = {
+export const PostSchema: JTDSchemaType<Post> = {
     properties: {
         ...metaSchema.properties,
         uuid: { type: "string" },
+        category: {
+            elements: { type: "string" },
+        },
         timestamp: { type: "timestamp" },
     },
     optionalProperties: metaSchema.optionalProperties,
 };
 
-export const postSendSerializer = ajv.compileSerializer(PostSendSchema);
-export const postSendParser = ajv.compileParser(PostSendSchema);
+export const postSendSerializer = ajv.compileSerializer(PostSchema);
+export const postSendParser = ajv.compileParser(PostSchema);

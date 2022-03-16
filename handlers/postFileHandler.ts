@@ -29,7 +29,7 @@ export function getPostMeta(uuid: string): Post | null {
 
 function getPostPath(uuid: string): string | null {
     return compute(getPostMeta(uuid))
-        .mapSkipNull((post) => join(root, ...post.directory)).value;
+        .mapSkipNull((post) => join(root, ...post.category)).value;
 }
 
 export const getPostFile = (

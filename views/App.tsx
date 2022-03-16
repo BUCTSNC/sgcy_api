@@ -1,5 +1,5 @@
 import { Outlet, React, Route, Routes, useNavigate } from "../deps/react.ts";
-import { PostSend } from "../memoryDB/post.ts";
+import { Post } from "../memoryDB/post.ts";
 import { PostPage } from "./PostPage/index.tsx";
 import { HomePage } from "./HomePage/index.tsx";
 import { useStyles } from "./Styles.ts";
@@ -7,16 +7,16 @@ import { Header } from "./Layout/Header.tsx";
 
 export type State = {
     hotList: {
-        daily: PostSend[];
-        weekly: PostSend[];
-        monthly: PostSend[];
-        yearly: PostSend[];
+        daily: Post[];
+        weekly: Post[];
+        monthly: Post[];
+        yearly: Post[];
     };
     post?: {
-        meta: PostSend;
+        meta: Post;
         indexMD: string;
     };
-    searchResults?: PostSend[];
+    searchResults?: Post[];
 };
 
 export function App(state: State = {

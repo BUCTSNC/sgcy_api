@@ -31,10 +31,7 @@ const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
                     if (meta === undefined) return null;
                     return {
                         post: {
-                            meta: {
-                                ...meta,
-                                directory: undefined,
-                            },
+                            meta,
                             indexMD: await new Blob([content]).text(),
                         },
                     };
@@ -45,10 +42,11 @@ const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
                             uuid: "404",
                             title: "内容未找到",
                             intro: "被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。",
-                            tags: [] as string[],
-                            authors: [] as string[],
-                            editors: [] as string[],
+                            tags: [],
+                            authors: [],
+                            editors: [],
                             timestamp: new Date(),
+                            category: []
                         },
                         indexMD:
                             "## 没有找到对应的内容\n\n文章可能被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。",

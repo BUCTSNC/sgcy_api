@@ -1,3 +1,4 @@
+import "../global.d.ts";
 import { path } from "../deps/std.ts";
 import { isVoid } from "../deps/freesia.ts";
 import { root } from "../constant.ts";
@@ -70,7 +71,7 @@ async function findPostRecursively(
                 uuid,
                 timestamp,
                 ...meta,
-                directory: targetPath,
+                category: targetPath,
             }];
         } catch (errors) {
             console.log(

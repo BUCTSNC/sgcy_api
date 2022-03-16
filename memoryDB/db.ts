@@ -1,15 +1,9 @@
-import { generate, path } from "../deps/std.ts";
+import { path } from "../deps/std.ts";
 import { isVoid } from "../deps/freesia.ts";
 import { root } from "../constant.ts";
 import { ajv, metaParser, Post } from "./post.ts";
 
 const { join } = path;
-
-const PostsNameSpace = await generate(
-    "00000000-0000-0000-0000-000000000000",
-    await Deno.readFile(join(root, "namespace_seed")),
-);
-
 type MemoryDB = Post[];
 
 export let memoryDB: MemoryDB = [];
@@ -66,10 +60,7 @@ async function findPostRecursively(
             if (isVoid(uuidStat)) {
                 await Deno.writeTextFile(
                     join(root, ...targetPath, ".uuid"),
-                    await generate(
-                        PostsNameSpace,
-                        crypto.getRandomValues(new Uint8Array(8)),
-                    ),
+                    crypto.randomUUID(),
                 );
             }
             const uuid = await Deno.readTextFile(

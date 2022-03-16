@@ -1,6 +1,6 @@
 import { marked } from "../../deps/marked.ts";
 import { React, useEffect, useParams, useState } from "../../deps/react.ts";
-import { postSendParser } from "../../memoryDB/post.ts";
+import { postSendParser } from "../../types/post.ts";
 import { State } from "../App.tsx";
 
 export function PostPage(props: { post: State["post"] }) {

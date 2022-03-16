@@ -1,6 +1,6 @@
 import { compute, Empty, parseURL, resJson } from "../deps/freesia.ts";
 import { escapeStringRegExp } from "../deps/escapeStringRegExp.ts";
-import { metaQuery, SearchableFields } from "../memoryDB/metaQuery.ts";
+import { metaQuery, SearchableFields } from "../services/metaQuery.ts";
 import { like } from "../utils/RegExpUtils.ts";
 
 export const searchForPosts = async (req: Request) => {

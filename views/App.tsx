@@ -1,5 +1,5 @@
 import { Outlet, React, Route, Routes, useNavigate } from "../deps/react.ts";
-import { Post } from "../memoryDB/post.ts";
+import { Post } from "../types/post.ts";
 import { PostPage } from "./PostPage/index.tsx";
 import { HomePage } from "./HomePage/index.tsx";
 import { useStyles } from "./Styles.ts";

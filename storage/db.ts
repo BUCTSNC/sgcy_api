@@ -2,7 +2,7 @@ import "../global.d.ts";
 import { path } from "../deps/std.ts";
 import { isVoid } from "../deps/freesia.ts";
 import { root } from "../constant.ts";
-import { ajv, metaParser, Post } from "./post.ts";
+import { ajv, metaParser, Post } from "../types/post.ts";
 
 const { join } = path;
 type MemoryDB = Post[];

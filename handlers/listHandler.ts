@@ -4,7 +4,7 @@ import {
     outerMonthly,
     outerWeekly,
     outerYearly,
-} from "../memoryDB/logger.ts";
+} from "../storage/logger.ts";
 
 const listHandler = async (params: { type: string }) => {
     return resJson(

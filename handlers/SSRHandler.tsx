@@ -8,9 +8,9 @@ import {
     outerMonthly,
     outerWeekly,
     outerYearly,
-} from "../memoryDB/logger.ts";
-import { memoryDB } from "../memoryDB/db.ts";
-import { Post } from "../memoryDB/post.ts";
+} from "../storage/logger.ts";
+import { memoryDB } from "../storage/db.ts";
+import { Post } from "../types/post.ts";
 import { getPostFile } from "./postFileHandler.ts";
 import { searchForPosts } from "./serachHandler.ts";
 

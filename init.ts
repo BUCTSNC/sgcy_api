@@ -1,6 +1,6 @@
 import { path } from "./deps/std.ts";
 import { isVoid } from "./deps/freesia.ts";
-import { initDB } from "./memoryDB/db.ts";
+import { initDB } from "./storage/db.ts";
 import {
     inner,
     msToNext24,
@@ -9,7 +9,7 @@ import {
     updateInner,
     visitLogParser,
     visitLogSerializer,
-} from "./memoryDB/logger.ts";
+} from "./storage/logger.ts";
 import { root } from "./constant.ts";
 
 const { join } = path;

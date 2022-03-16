@@ -1,11 +1,11 @@
 import { condition } from "../deps/freesia.ts";
-import { PostMetaInJSON } from "./post.ts";
-import { memoryDB } from "./db.ts";
+import { Post } from "../types/post.ts";
+import { memoryDB } from "../storage/db.ts";
 
-export type SearchableFields = keyof PostMetaInJSON;
+export type SearchableFields = keyof Omit<Post, "headerImage" | "timestamp">;
 
 export type MetaQueryOption = {
-    where: [SearchableFields | "uuid", RegExp][];
+    where: [SearchableFields, RegExp][];
     sort?: "asc" | "desc";
     duration?: [Date, Date];
     limit?: number;
@@ -42,16 +42,16 @@ export function metaQuery(query: MetaQueryOption, db = memoryDB) {
                     ["title", "intro"],
                     (key) =>
                         inDuration.filter((p) =>
-                            re.exec(p[key as "title" | "intro" | "uuid"])
+                            re.exec(p[key as "title" | "intro"])
                         ),
                 )
                 // 对于authors和tags，检查数组中是否有符合目标的值
                 .match(
-                    ["authors", "tags"],
+                    ["authors", "tags", "category"],
                     (key) =>
                         inDuration.filter((p) =>
                             Boolean(
-                                p[key as "authors" | "tags"].filter((str) =>
+                                p[key as "authors" | "tags" | "category"].filter((str) =>
                                     re.exec(str)
                                 )
                                     .length,

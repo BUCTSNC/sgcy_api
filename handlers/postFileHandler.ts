@@ -9,12 +9,12 @@ import {
 } from "../deps/freesia.ts";
 import { lookup } from "../deps/mediaTypes.ts";
 import { escapeStringRegExp } from "../deps/escapeStringRegExp.ts";
-import { metaQuery } from "../memoryDB/metaQuery.ts";
+import { metaQuery } from "../services/metaQuery.ts";
 import { exact } from "../utils/RegExpUtils.ts";
 import { root } from "../constant.ts";
-import { logVisit } from "../memoryDB/logger.ts";
+import { logVisit } from "../storage/logger.ts";
 import { validate } from "../services/ticket.ts";
-import { Post } from "../memoryDB/post.ts";
+import { Post } from "../types/post.ts";
 
 const { join, extname } = path;
 

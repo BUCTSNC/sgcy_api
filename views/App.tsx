@@ -27,10 +27,15 @@ export function App(state: State = {
     return (
         <div className={app}>
             <Routes>
-                <Route path="/" element={<React.Fragment>
-                    <Header />
-                    <Outlet />
-                </React.Fragment>}>
+                <Route
+                    path="/"
+                    element={
+                        <React.Fragment>
+                            <Header />
+                            <Outlet />
+                        </React.Fragment>
+                    }
+                >
                     <Route index element={<HomePage count={0} />}></Route>
                     <Route
                         path="p/:uuid/"

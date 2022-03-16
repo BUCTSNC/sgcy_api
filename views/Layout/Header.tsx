@@ -44,8 +44,7 @@ function SearchBar() {
 function Navigation() {
     const { activeCateTab, inactiveCateTab, categoryNavibar } = layoutStyles();
     const navi = useNavigate();
-    const { category, uuid } = useParams();
-    console.log(useParams());
+    const { category } = useParams();
     const [activedCate, setActivedCate] = useState(category);
     useEffect(() => {
         setActivedCate(category);

@@ -1,5 +1,5 @@
 import { Ajv, JTDSchemaType } from "../deps/ajvJTD.ts";
-import YAML from "../deps/YAML.ts"
+import YAML from "../deps/YAML.ts";
 
 export const ajv = new Ajv({ parseDate: true });
 
@@ -26,11 +26,11 @@ const metaChecker = ajv.compile(metaSchema);
 export const metaParser = (content: string) => {
     const json = YAML.parse(content);
     if (metaChecker(json)) {
-        return json
+        return json;
     } else {
-        return undefined
+        return undefined;
     }
-}
+};
 
 export type PostMetaInYAML = {
     title: string;
@@ -47,9 +47,22 @@ export type PostMetaInFS = {
     timestamp: Date;
 };
 
-export type Post = PostMetaInFS & PostMetaInYAML;
+export type PostVisitLog = Record<string, number>
 
-export const PostSchema: JTDSchemaType<Post> = {
+const visitLogSchema: JTDSchemaType<PostVisitLog> = {
+    values: {
+        type: "uint32"
+    }
+}
+
+export const visitLogParser = ajv.compileParser(visitLogSchema);
+export const visitLogSerializer = ajv.compileSerializer(visitLogSchema)
+
+export type Post = PostMetaInFS & PostMetaInYAML & { visited: PostVisitLog };
+
+export type PostSend = PostMetaInFS & PostMetaInYAML;
+
+const PostSchema: JTDSchemaType<PostSend> = {
     properties: {
         ...metaSchema.properties,
         uuid: { type: "string" },

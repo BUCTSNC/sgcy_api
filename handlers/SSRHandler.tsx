@@ -2,8 +2,7 @@ import { React, renderToString, StaticRouter } from "../deps/react.ts";
 import { createRes, createSwRtX, Empty, isVoid } from "../deps/freesia.ts";
 import { indexHTML } from "./staticFileHandler.ts";
 import App, { State } from "../views/App.tsx";
-import { DBtoSend, getHotWithCache, memoryDB } from "../storage/db.ts";
-import { PostInDB } from "../types/post.ts";
+import { DBtoSend, getHotWithCache } from "../storage/db.ts";
 import { getPostFile, getPostMeta } from "./postFileHandler.ts";
 import { searchForPosts } from "./serachHandler.ts";
 
@@ -40,7 +39,7 @@ const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
                             editors: [],
                             timestamp: new Date(),
                             category: [],
-                            amount: 0
+                            amount: 0,
                         },
                         indexMD:
                             "## 没有找到对应的内容\n\n文章可能被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。",
@@ -51,18 +50,13 @@ const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
     .route("/search", async (_, req) => {
         const result = await searchForPosts(req);
         return {
-            searchResults: result.map(post => DBtoSend(post, 7)),
+            searchResults: result.map((post) => DBtoSend(post, 7)),
         };
     })
     .fallback(async () => ({}));
 
 const ssrHandler = async (url: string, req: Request) => {
-    const hotList: State["hotList"] = {
-        daily: getHotWithCache(1, 50, 0),
-        weekly: getHotWithCache(7, 50, 0),
-        monthly: getHotWithCache(30, 50, 0),
-        yearly: getHotWithCache(365, 50, 0),
-    };
+    const hotList: State["hotList"] = getHotWithCache(7, 50, 0);
     const { post, searchResults } = await switcher(url, req);
     return createRes(
         indexHTML.replace(

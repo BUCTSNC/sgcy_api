@@ -6,12 +6,7 @@ import { useStyles } from "./Styles.ts";
 import { Header } from "./Layout/Header.tsx";
 
 export type State = {
-    hotList: {
-        daily: PostSend[];
-        weekly: PostSend[];
-        monthly: PostSend[];
-        yearly: PostSend[];
-    };
+    hotList: PostSend[];
     post?: {
         meta: PostSend;
         indexMD: string;
@@ -20,7 +15,7 @@ export type State = {
 };
 
 export function App(state: State = {
-    hotList: { daily: [], weekly: [], monthly: [], yearly: [] },
+    hotList: [],
 }) {
     const { app } = useStyles();
     return (
@@ -35,7 +30,7 @@ export function App(state: State = {
                         </React.Fragment>
                     }
                 >
-                    <Route index element={<HomePage count={0n} />}></Route>
+                    <Route index element={<HomePage hotList={state.hotList} />}></Route>
                     <Route
                         path="p/:uuid/"
                         element={<PostPage post={state.post} />}

@@ -3,7 +3,7 @@ import App from "./App.tsx";
 
 ReactDOM.hydrate(
     <BrowserRouter>
-        <App hotList={{ daily: [], weekly: [], monthly: [], yearly: [] }} />
+        <App hotList={[]} />
     </BrowserRouter>,
     document.getElementById("App"),
 );

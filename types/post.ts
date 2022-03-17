@@ -81,3 +81,10 @@ const PostSchema: JTDSchemaType<PostSend> = {
 
 export const postSendSerializer = ajv.compileSerializer(PostSchema);
 export const postSendParser = ajv.compileParser(PostSchema);
+
+const PostArraySchema: JTDSchemaType<PostSend[]> = {
+    elements: PostSchema
+}
+
+export const postArraySerializer = ajv.compileSerializer(PostArraySchema);
+export const postArrayParser = ajv.compileParser(PostArraySchema)

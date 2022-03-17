@@ -61,6 +61,8 @@ const throttle = (waitToExec: number) =>
 
 const throttled = throttle(1000)(fsEventHandler);
 
+
+fsEventHandler();
 for await (const event of watcher) {
     throttled(event);
 }

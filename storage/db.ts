@@ -1,10 +1,11 @@
 import "../global.d.ts";
 import { path } from "../deps/std.ts";
-import { isVoid } from "../deps/freesia.ts";
+import { isVoid, memoryCache } from "../deps/freesia.ts";
 import { root } from "../constant.ts";
 import {
     metaParser,
-    Post,
+    PostInDB,
+    PostSend,
     visitLogParser,
     visitLogSerializer,
 } from "../types/post.ts";
@@ -13,7 +14,7 @@ import { createWrapper } from "https://deno.land/x/freesia@v1.1.2/mod.ts";
 import { sleep } from "../services/sleep.ts";
 
 const { join } = path;
-type MemoryDB = Post[];
+type MemoryDB = PostInDB[];
 
 export let memoryDB: MemoryDB = [];
 
@@ -69,7 +70,10 @@ async function loadPostVisited(category: string[]) {
         });
 }
 
-async function composePostMeta(category: string[], mtime: Date): Promise<Post> {
+async function composePostMeta(
+    category: string[],
+    mtime: Date,
+): Promise<PostInDB> {
     const [uuid, meta, visited] = await Promise.all(
         [loadUUID(category), loadPostMeta(category), loadPostVisited(category)],
     );
@@ -79,8 +83,8 @@ async function composePostMeta(category: string[], mtime: Date): Promise<Post> {
 async function findPostsRecursively(
     categroy: string[],
     strictMode = false,
-): Promise<Post[]> {
-    let posts: Post[] = [];
+): Promise<PostInDB[]> {
+    let posts: PostInDB[] = [];
     for await (const entry of Deno.readDir(join(root, ...categroy))) {
         try {
             if (entry.name === "index.md" && entry.isFile) {
@@ -118,7 +122,7 @@ async function rebuildDB(strictMode = false) {
 
 export async function watchDir(minInterval = 1000, strictMode = false) {
     const watcher = Deno.watchFs(root);
-
+    await rebuildDB();
     let lastEvent: Deno.FsEvent;
     const throttledRebuilder = createWrapper<
         typeof rebuildDB,
@@ -165,23 +169,29 @@ export function logVisit(uuid: string) {
     }
 }
 
-export function getHot(
+function getHot(
     inDays: number,
     pageSize: number,
     index: number,
-): (Post & { amount: number })[] {
-    const todayNum = Number(getDateStamp());
-    const datestamps: string[] = new Array<number>(inDays).fill(todayNum).map((
-        value,
-        index,
-    ) => value - index).map(String);
-    const postsWithAmount = memoryDB.map((post) => {
-        const amount = datestamps.map((datestamp) =>
-            post.visited[datestamp] ?? 0
-        ).reduce((sum, next) => sum + next, 0);
-        return { ...post, amount };
-    })
+): PostSend[] {
+    const postsWithAmount = memoryDB.map((post) => DBtoSend(post, inDays))
         .sort((postA, postB) => postA.amount - postB.amount)
         .slice(index * pageSize, (index + 1) * pageSize);
     return postsWithAmount;
+}
+
+// 每次运行getHot后，相同的参数在一分钟内返回的是缓存的值
+export const getHotWithCache = memoryCache(getHot, 60 * 1000);
+
+export function DBtoSend(post: PostInDB, visitedInDays: number): PostSend {
+    const todayNum = Number(getDateStamp());
+    const datestamps: string[] = new Array<number>(visitedInDays).fill(todayNum)
+        .map((
+            value,
+            index,
+        ) => value - index).map(String);
+    const amount = datestamps.map((datestamp) => post.visited[datestamp] ?? 0)
+        .reduce((sum, next) => sum + next, 0);
+    const { visited: _visited, ...otherProps } = post;
+    return { ...otherProps, amount };
 }

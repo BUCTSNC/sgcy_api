@@ -1,8 +1,8 @@
 import { condition } from "../deps/freesia.ts";
-import { Post } from "../types/post.ts";
+import { PostInDB } from "../types/post.ts";
 import { memoryDB } from "../storage/db.ts";
 
-export type SearchableFields = keyof Omit<Post, "headerImage" | "timestamp">;
+export type SearchableFields = keyof Omit<PostInDB, "headerImage" | "timestamp">;
 
 export type MetaQueryOption = {
     where: [SearchableFields, RegExp][];

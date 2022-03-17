@@ -47,20 +47,22 @@ export type PostMetaInFS = {
     timestamp: Date;
 };
 
-export type PostVisitLog = Record<string, number>
+export type PostVisitLog = Record<string, number>;
 
 const visitLogSchema: JTDSchemaType<PostVisitLog> = {
     values: {
-        type: "uint32"
-    }
-}
+        type: "uint32",
+    },
+};
 
 export const visitLogParser = ajv.compileParser(visitLogSchema);
-export const visitLogSerializer = ajv.compileSerializer(visitLogSchema)
+export const visitLogSerializer = ajv.compileSerializer(visitLogSchema);
 
-export type Post = PostMetaInFS & PostMetaInYAML & { visited: PostVisitLog };
+export type PostInDB = PostMetaInFS & PostMetaInYAML & {
+    visited: PostVisitLog;
+};
 
-export type PostSend = PostMetaInFS & PostMetaInYAML;
+export type PostSend = PostMetaInFS & PostMetaInYAML & { amount: number };
 
 const PostSchema: JTDSchemaType<PostSend> = {
     properties: {
@@ -70,8 +72,11 @@ const PostSchema: JTDSchemaType<PostSend> = {
             elements: { type: "string" },
         },
         timestamp: { type: "timestamp" },
+        amount: { type: "uint32" },
     },
-    optionalProperties: metaSchema.optionalProperties,
+    optionalProperties: {
+        ...metaSchema.optionalProperties
+    },
 };
 
 export const postSendSerializer = ajv.compileSerializer(PostSchema);

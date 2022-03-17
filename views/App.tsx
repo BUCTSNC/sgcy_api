@@ -1,5 +1,5 @@
 import { Outlet, React, Route, Routes } from "../deps/react.ts";
-import { Post } from "../types/post.ts";
+import { PostSend } from "../types/post.ts";
 import { PostPage } from "./PostPage/index.tsx";
 import { HomePage } from "./HomePage/index.tsx";
 import { useStyles } from "./Styles.ts";
@@ -7,16 +7,16 @@ import { Header } from "./Layout/Header.tsx";
 
 export type State = {
     hotList: {
-        daily: Post[];
-        weekly: Post[];
-        monthly: Post[];
-        yearly: Post[];
+        daily: PostSend[];
+        weekly: PostSend[];
+        monthly: PostSend[];
+        yearly: PostSend[];
     };
     post?: {
-        meta: Post;
+        meta: PostSend;
         indexMD: string;
     };
-    searchResults?: Post[];
+    searchResults?: PostSend[];
 };
 
 export function App(state: State = {
@@ -35,7 +35,7 @@ export function App(state: State = {
                         </React.Fragment>
                     }
                 >
-                    <Route index element={<HomePage count={0} />}></Route>
+                    <Route index element={<HomePage count={0n} />}></Route>
                     <Route
                         path="p/:uuid/"
                         element={<PostPage post={state.post} />}

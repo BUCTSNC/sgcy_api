@@ -1,8 +1,12 @@
 import { getPostMeta } from "./postFileHandler.ts";
-import { createRes, resJson } from "../deps/freesia.ts";
+import { ResFromTuple, TypedResponse } from "../deps/freesia.ts";
+import { PostSend } from "../types/post.ts";
+import { DBtoSend } from "../storage/db.ts";
 
-export const queryPostHandler = async (params: { uuid: string }) => {
-    const result = getPostMeta(params.uuid);
-    if (result === null) return createRes(404, "Post Not Found.");
-    return resJson(result);
+export const queryPost = (uuid: string): TypedResponse<PostSend> => {
+    const result = getPostMeta(uuid);
+    return result === null ? [404] : [200, DBtoSend(result, 7)];
 };
+
+export const queryPostHandler = async (params: { uuid: string }) =>
+    ResFromTuple(queryPost(params.uuid));

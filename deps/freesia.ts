@@ -13,4 +13,7 @@ export {
     resJson,
     type Respond,
     shimHTTP,
-} from "https://deno.land/x/freesia@v1.1.2/mod.ts";
+    memoryCache,
+    type TypedResponse,
+    ResFromTuple
+} from "https://deno.land/x/freesia@v1.1.5/mod.ts";

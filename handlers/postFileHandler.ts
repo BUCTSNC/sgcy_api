@@ -12,13 +12,13 @@ import { escapeStringRegExp } from "../deps/escapeStringRegExp.ts";
 import { metaQuery } from "../services/metaQuery.ts";
 import { exact } from "../utils/RegExpUtils.ts";
 import { root } from "../constant.ts";
-import { logVisit } from "../storage/logger.ts";
 import { validate } from "../services/ticket.ts";
-import { Post } from "../types/post.ts";
+import { PostInDB } from "../types/post.ts";
+import { logVisit } from "../storage/db.ts";
 
 const { join, extname } = path;
 
-export function getPostMeta(uuid: string): Post | null {
+export function getPostMeta(uuid: string): PostInDB | null {
     const results = metaQuery({
         where: [
             ["uuid", exact(uuid)],

@@ -32,7 +32,9 @@ export function PostPage(props: { post: State["post"] }) {
                 throw null;
             })
             .then(setPost)
-            .catch(() => void (0));
+            .catch(err => {
+                console.error(JSON.stringify(err))
+            })
     }, [uuid]);
     return (
         <div

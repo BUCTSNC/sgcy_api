@@ -15,5 +15,6 @@ export {
     shimHTTP,
     memoryCache,
     type TypedResponse,
-    ResFromTuple
+    ResFromTuple,
+    composeFn
 } from "https://deno.land/x/freesia@v1.1.5/mod.ts";

@@ -75,7 +75,7 @@ const PostSchema: JTDSchemaType<PostSend> = {
         amount: { type: "uint32" },
     },
     optionalProperties: {
-        ...metaSchema.optionalProperties
+        ...metaSchema.optionalProperties,
     },
 };
 
@@ -83,8 +83,8 @@ export const postSendSerializer = ajv.compileSerializer(PostSchema);
 export const postSendParser = ajv.compileParser(PostSchema);
 
 const PostArraySchema: JTDSchemaType<PostSend[]> = {
-    elements: PostSchema
-}
+    elements: PostSchema,
+};
 
 export const postArraySerializer = ajv.compileSerializer(PostArraySchema);
-export const postArrayParser = ajv.compileParser(PostArraySchema)
+export const postArrayParser = ajv.compileParser(PostArraySchema);

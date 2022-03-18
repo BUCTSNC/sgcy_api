@@ -5,6 +5,8 @@ import App, { State } from "../views/App.tsx";
 import { DBtoSend, getHotWithCache } from "../storage/db.ts";
 import { getPostFile, getPostMeta } from "./postFileHandler.ts";
 import { searchForPosts } from "./serachHandler.ts";
+import { getPostByTag } from "./tagsHandler.ts";
+import { getPostByCategory } from "./categoryHandler.ts";
 
 const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
     .route(
@@ -47,6 +49,14 @@ const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
                 }))
                 .value,
     )
+    .route("/tag/<tag>/", async ({ tag }) => {
+        const [_status, list] = await getPostByTag(tag);
+        return { tagPosts: list ?? [] };
+    })
+    .route("/cate/<cate>", async ({ cate }) => {
+        const [_status, list] = await getPostByCategory(cate);
+        return { categoryPosts: list ?? [] };
+    })
     .route("/search", async (_, req) => {
         const result = await searchForPosts(req);
         return {
@@ -57,7 +67,10 @@ const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
 
 const ssrHandler = async (url: string, req: Request) => {
     const hotList: State["hotList"] = getHotWithCache(7, 50, 0);
-    const { post, searchResults } = await switcher(url, req);
+    const { post, tagPosts, categoryPosts, searchResults } = await switcher(
+        url,
+        req,
+    );
     return createRes(
         indexHTML.replace(
             "<!-- SSR -->",
@@ -66,6 +79,8 @@ const ssrHandler = async (url: string, req: Request) => {
                     <App
                         hotList={hotList}
                         post={post}
+                        tagPosts={tagPosts}
+                        categoryPosts={categoryPosts    }
                         searchResults={searchResults}
                     />
                 </StaticRouter>,

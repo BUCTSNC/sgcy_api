@@ -1,4 +1,5 @@
 export {
+    composeFn,
     type Computation,
     compute,
     condition,
@@ -9,12 +10,11 @@ export {
     type EntryPoint,
     Get,
     isVoid,
+    memoryCache,
     parseURL,
+    ResFromTuple,
     resJson,
     type Respond,
     shimHTTP,
-    memoryCache,
     type TypedResponse,
-    ResFromTuple,
-    composeFn
 } from "https://deno.land/x/freesia@v1.1.5/mod.ts";

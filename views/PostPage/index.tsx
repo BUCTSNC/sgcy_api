@@ -2,6 +2,7 @@ import { marked } from "../../deps/marked.ts";
 import { React, useEffect, useParams, useState } from "../../deps/react.ts";
 import { postSendParser } from "../../types/post.ts";
 import { State } from "../App.tsx";
+import { Tags } from "../Component/Tags.tsx";
 
 export function PostPage(props: { post: State["post"] }) {
     const { uuid } = useParams();
@@ -32,16 +33,25 @@ export function PostPage(props: { post: State["post"] }) {
                 throw null;
             })
             .then(setPost)
-            .catch(err => {
-                console.error(JSON.stringify(err))
-            })
+            .catch((err) => {
+                console.error(JSON.stringify(err));
+            });
     }, [uuid]);
     return (
         <div
             id="content"
-            suppressHydrationWarning
-            dangerouslySetInnerHTML={{ __html: marked.parse(post.indexMD) }}
+            className="PostPage"
         >
+            <h1>{post.meta.title}</h1>
+            <p>作者：{post.meta.authors.join(" ")}</p>
+            <div
+                className="PostPage-Container"
+                suppressHydrationWarning
+                dangerouslySetInnerHTML={{ __html: marked.parse(post.indexMD) }}
+            >
+            </div>
+            <p>标签：</p>
+            <Tags tags={post.meta.tags} />
         </div>
     );
 }

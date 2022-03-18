@@ -1,0 +1,18 @@
+.CategoryPage-Title {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.CategoryPage-Title-Sub {
+    margin-left: 4px;
+    margin-right: 4px;
+    padding: 4px;
+    border-radius: 4px;
+    background-color: #dddddd;
+}
+
+.CategoryPage-Title-Sub:hover {
+    background-color: #606060;
+    color: #eeeeee;
+}

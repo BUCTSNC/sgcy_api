@@ -1,6 +1,11 @@
-import { condition, isVoid, ResFromTuple, TypedResponse } from "../deps/freesia.ts";
+import {
+    condition,
+    isVoid,
+    ResFromTuple,
+    TypedResponse,
+} from "../deps/freesia.ts";
 import { getHotWithCache } from "../storage/db.ts";
-import { PostSend, postArraySerializer} from "../types/post.ts";
+import { postArraySerializer, PostSend } from "../types/post.ts";
 
 const getHotList = (type: string): TypedResponse<PostSend[]> => {
     const inDays = condition(type)
@@ -15,7 +20,10 @@ const getHotList = (type: string): TypedResponse<PostSend[]> => {
 };
 
 const listHandler = async (params: { type: string }) => {
-    return ResFromTuple(getHotList(params.type), json => isVoid(json) ? '[]' : postArraySerializer(json));
+    return ResFromTuple(
+        getHotList(params.type),
+        (json) => isVoid(json) ? "[]" : postArraySerializer(json),
+    );
 };
 
 export default listHandler;

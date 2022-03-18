@@ -2,7 +2,10 @@ import { condition } from "../deps/freesia.ts";
 import { PostInDB } from "../types/post.ts";
 import { memoryDB } from "../storage/db.ts";
 
-export type SearchableFields = keyof Omit<PostInDB, "headerImage" | "timestamp">;
+export type SearchableFields = keyof Omit<
+    PostInDB,
+    "headerImage" | "timestamp"
+>;
 
 export type MetaQueryOption = {
     where: [SearchableFields, RegExp][];
@@ -51,9 +54,8 @@ export function metaQuery(query: MetaQueryOption, db = memoryDB) {
                     (key) =>
                         inDuration.filter((p) =>
                             Boolean(
-                                p[key as "authors" | "tags" | "category"].filter((str) =>
-                                    re.exec(str)
-                                )
+                                p[key as "authors" | "tags" | "category"]
+                                    .filter((str) => re.exec(str))
                                     .length,
                             )
                         ),

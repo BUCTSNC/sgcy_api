@@ -1,0 +1,41 @@
+.Layout-Header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    border-bottom: 4px solid #5677fc;
+    margin-bottom: 4px;
+}
+
+.Layout-Header * {
+    margin: 4px 0;
+}
+
+.Layout-Header-Title {
+    border-bottom: transparent solid 4px;
+}
+
+.Layout-Header-Title:hover {
+    color: #8989ed;
+    border-bottom: #8989ed solid 4px;
+}
+
+.Layout-Header-Navigation {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Layout-Header-Navigation-Item {
+    margin: 4px;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.Layout-Header-Navigation-Item-Actived {
+    background-color: #666666;
+    color: white;
+}
+
+.Layout-Header-Navigation-Item-Inactived {
+    background-color: #dedede;
+}

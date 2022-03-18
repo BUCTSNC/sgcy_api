@@ -6,17 +6,16 @@ import {
     useSearchParams,
     useState,
 } from "../../deps/react.ts";
-import { layoutStyles, useStyles } from "../Styles.ts";
 
 export function Header() {
-    const { header } = layoutStyles();
+    const navi = useNavigate();
     return (
-        <div className={header}>
-            <h1>
+        <div className="Layout-Header">
+            <h1 className="Layout-Header-Title" onClick={() => navi("/")}>
                 胜古朝阳
             </h1>
-            <p>北京化工大学学生生活服务指南</p>
-            <SearchBar />
+            <p className="Layout-Header-Intro">北京化工大学学生生活服务指南</p>
+            {/* <SearchBar /> */}
             <Navigation />
         </div>
     );
@@ -42,7 +41,6 @@ function SearchBar() {
 }
 
 function Navigation() {
-    const { activeCateTab, inactiveCateTab, categoryNavibar } = layoutStyles();
     const navi = useNavigate();
     const { category } = useParams();
     const [activedCate, setActivedCate] = useState(category);
@@ -50,15 +48,15 @@ function Navigation() {
         setActivedCate(category);
     }, [category]);
     return (
-        <div className={categoryNavibar}>
+        <div className="Layout-Header-Navigation">
             {["校园生活", "服务指南", "学习资源", "校园风光"].map(
                 (categoryName, index) => (
                     <div
                         key={index}
                         onClick={() => navi(`/cate/${categoryName}`)}
-                        className={categoryName === activedCate
-                            ? activeCateTab
-                            : inactiveCateTab}
+                        className={`Layout-Header-Navigation-Item ${categoryName === activedCate
+                            ? "Layout-Header-Navigation-Item-Actived"
+                            : "Layout-Header-Navigation-Item-Inactived"}`}
                     >
                         {categoryName}
                     </div>

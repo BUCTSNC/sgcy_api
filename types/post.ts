@@ -1,7 +1,7 @@
 import { Ajv, JTDSchemaType } from "../deps/ajvJTD.ts";
 import YAML from "../deps/YAML.ts";
 
-export const ajv = new Ajv({ parseDate: true });
+export const ajv = new Ajv({ parseDate: true, int32range: false });
 
 const metaSchema: JTDSchemaType<PostMetaInYAML> = {
     properties: {
@@ -64,7 +64,7 @@ export type PostInDB = PostMetaInFS & PostMetaInYAML & {
 
 export type PostSend = PostMetaInFS & PostMetaInYAML & { amount: number };
 
-const PostSchema: JTDSchemaType<PostSend> = {
+export const PostSchema: JTDSchemaType<PostSend> = {
     properties: {
         ...metaSchema.properties,
         uuid: { type: "string" },
@@ -82,7 +82,7 @@ const PostSchema: JTDSchemaType<PostSend> = {
 export const postSendSerializer = ajv.compileSerializer(PostSchema);
 export const postSendParser = ajv.compileParser(PostSchema);
 
-const PostArraySchema: JTDSchemaType<PostSend[]> = {
+export const PostArraySchema: JTDSchemaType<PostSend[]> = {
     elements: PostSchema,
 };
 

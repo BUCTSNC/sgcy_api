@@ -8,6 +8,7 @@ import {
 import { postArrayParser, PostSend } from "../../types/post.ts";
 import { throwIfNull } from "../../utils/throwIfNull.ts";
 import { PostCard } from "../Component/PostCard.tsx";
+import { isSSG } from "../isSSG.ts";
 
 export const TagsPage = (props: { postList: PostSend[] }) => {
     const { tag } = useParams();
@@ -27,10 +28,11 @@ export const TagsPage = (props: { postList: PostSend[] }) => {
                 });
         }
     }, [tag]);
+    const postList = isSSG() ? props.postList : list;
     return (
         <div className="CategoryPage">
             <h2>{tag}</h2>
-            {list.map((post, index) => <PostCard key={index} post={post} />)}
+            {postList.map((post, index) => <PostCard key={index} post={post} />)}
         </div>
     );
 };

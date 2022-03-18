@@ -53,7 +53,7 @@ function Navigation() {
                 (categoryName, index) => (
                     <div
                         key={index}
-                        onClick={() => navi(`/cate/${categoryName}`)}
+                        onClick={() => navi(`/cate/${categoryName}/`)}
                         className={`Layout-Header-Navigation-Item ${categoryName === activedCate
                             ? "Layout-Header-Navigation-Item-Actived"
                             : "Layout-Header-Navigation-Item-Inactived"}`}

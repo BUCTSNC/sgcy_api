@@ -1,11 +1,10 @@
 import { isVoid } from "../../deps/freesia.ts";
 import { React, useEffect, useNavigate, useState } from "../../deps/react.ts";
 import { postArrayParser, PostSend } from "../../types/post.ts";
-import { State } from "../App.tsx";
+import { State } from "../../types/state.ts";
 import { PostCard } from "../Component/PostCard.tsx";
 
 export function HomePage(props: { hotList: State["hotList"] }) {
-    const navi = useNavigate();
     const [hotList, setHotList] = useState(props.hotList);
     useEffect(() => {
         fetch("/list/weekly")
@@ -26,8 +25,8 @@ export function HomePage(props: { hotList: State["hotList"] }) {
     }, []);
     return (
         <div suppressHydrationWarning className="HomePage">
-            {hotList.map((post) => {
-                return <PostCard post={post} />;
+            {hotList.map((post, index) => {
+                return <PostCard key={index} post={post} />;
             })}
         </div>
     );

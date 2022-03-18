@@ -4,3 +4,4 @@ generateMainJS
 # For Windows
 server.exe
 generateMainJS.exe
+ssg/

@@ -1,17 +1,23 @@
 import { React, renderToString, StaticRouter } from "../deps/react.ts";
-import { createRes, createSwRtX, Empty, isVoid } from "../deps/freesia.ts";
+import {
+    createSwRt,
+    Empty,
+    isVoid,
+    ResFromTuple,
+    TypedResponse,
+} from "../deps/freesia.ts";
 import { indexHTML } from "./staticFileHandler.ts";
-import App, { State } from "../views/App.tsx";
+import App from "../views/App.tsx";
+import { State } from "../types/state.ts";
 import { DBtoSend, getHotWithCache } from "../storage/db.ts";
 import { getPostFile, getPostMeta } from "./postFileHandler.ts";
-import { searchForPosts } from "./serachHandler.ts";
 import { getPostByTag } from "./tagsHandler.ts";
 import { getPostByCategory } from "./categoryHandler.ts";
 
-const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
+const { switcher } = createSwRt<Promise<Omit<State, "hotList">>>()
     .route(
         "/",
-        async (_: Empty, _req: Request) => ({}),
+        async (_: Empty) => ({}),
     )
     .route(
         "/p/<uuid>/",
@@ -57,21 +63,29 @@ const { switcher } = createSwRtX<Promise<Omit<State, "hotList">>, Request>()
         const [_status, list] = await getPostByCategory(cate);
         return { categoryPosts: list ?? [] };
     })
-    .route("/search", async (_, req) => {
-        const result = await searchForPosts(req);
-        return {
-            searchResults: result.map((post) => DBtoSend(post, 7)),
-        };
-    })
+    // .route("/search", async (_, req) => {
+    //     const result = await searchForPosts(req);
+    //     return {
+    //         searchResults: result.map((post) => DBtoSend(post, 7)),
+    //     };
+    // })
     .fallback(async () => ({}));
 
-const ssrHandler = async (url: string, req: Request) => {
+export const getSSRDataHandler = async (
+    url: string,
+): Promise<State> => {
     const hotList: State["hotList"] = getHotWithCache(7, 50, 0);
-    const { post, tagPosts, categoryPosts, searchResults } = await switcher(
-        url,
-        req,
-    );
-    return createRes(
+    const rest = await switcher(url);
+    return { hotList, ...rest };
+};
+
+export const ssrHandler = async (
+    url: string,
+): Promise<TypedResponse<string>> => {
+    const { post, tagPosts, categoryPosts, searchResults, hotList } =
+        await getSSRDataHandler(url);
+    return [
+        200,
         indexHTML.replace(
             "<!-- SSR -->",
             renderToString(
@@ -80,7 +94,7 @@ const ssrHandler = async (url: string, req: Request) => {
                         hotList={hotList}
                         post={post}
                         tagPosts={tagPosts}
-                        categoryPosts={categoryPosts    }
+                        categoryPosts={categoryPosts}
                         searchResults={searchResults}
                     />
                 </StaticRouter>,
@@ -90,7 +104,7 @@ const ssrHandler = async (url: string, req: Request) => {
             "Content-Type",
             "text/html; charset=UTF-8",
         ],
-    );
+    ];
 };
 
-export default ssrHandler;
+export default async (url: string) => ResFromTuple(await ssrHandler(url));

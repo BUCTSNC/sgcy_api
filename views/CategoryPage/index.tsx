@@ -9,14 +9,16 @@ import {
 import { postArrayParser, PostSend } from "../../types/post.ts";
 import { throwIfNull } from "../../utils/throwIfNull.ts";
 import { PostCard } from "../Component/PostCard.tsx";
+import { isSSG } from "../isSSG.ts";
 
 export const CategoryPage = (props: { postList: PostSend[] }) => {
     const { "*": cate } = useParams();
     const [list, setList] = useState(props.postList);
     const navi = useNavigate();
     useEffect(() => {
-        if (isVoid(cate)) setList([]);
-        else {
+        if (isVoid(cate)) {
+            console.log("No such category.");
+        } else {
             fetch(`/api/cate/${cate}`).then((res) => {
                 if (res.ok) return res.text();
                 else throw new Error("Failed to fetch data");
@@ -29,23 +31,31 @@ export const CategoryPage = (props: { postList: PostSend[] }) => {
                 });
         }
     }, [cate]);
+    const postList = isSSG() ? props.postList : list;
     return (
         <div className="CategoryPage">
             <div className="CategoryPage-Title">
-                {cate?.split("/").map((subCate, index) => (
+                {cate?.split("/").filter((str) => str !== "").map((
+                    subCate,
+                    index,
+                ) => (
                     <div
                         className="CategoryPage-Title-Sub"
                         key={index}
                         onClick={() =>
                             navi(
-                                `/cate/${cate?.split("/").slice(0, index + 1)}`,
+                                `/cate/${
+                                    cate?.split("/").slice(0, index + 1).join(
+                                        "/",
+                                    )
+                                }/`,
                             )}
                     >
                         {subCate}
                     </div>
                 ))}
             </div>
-            {list.map((post, index) => <PostCard key={index} post={post} />)}
+            {postList.map((post, index) => <PostCard key={index} post={post} />)}
         </div>
     );
 };

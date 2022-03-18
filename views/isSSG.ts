@@ -1,0 +1,1 @@
+export const isSSG = () => Boolean(Number(sessionStorage.getItem("ssg")))

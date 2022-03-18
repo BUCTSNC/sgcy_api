@@ -11,7 +11,7 @@ const categoryCompare = (target: string[], source: string[]): boolean => {
 export const getPostByCategory = async (
     cate: string,
 ): Promise<TypedResponse<PostSend[]>> => {
-    const categories = cate.split("/").map(decodeURIComponent);
+    const categories = cate.split("/").filter(str => str !== "").map(decodeURIComponent);
     return [
         200,
         memoryDB.filter((post) => categoryCompare(categories, post.category))

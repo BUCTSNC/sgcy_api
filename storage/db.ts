@@ -112,7 +112,7 @@ async function findPostsRecursively(
     return posts;
 }
 
-async function rebuildDB(strictMode = false) {
+export async function rebuildDB(strictMode = false) {
     const db = await findPostsRecursively([], strictMode);
     memoryDB = db.sort((postA, postB) =>
         postA.timestamp.getTime() - postB.timestamp.getTime()

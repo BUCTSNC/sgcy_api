@@ -1,7 +1,7 @@
 import "../global.d.ts";
 import { path } from "../deps/std.ts";
 import { isVoid, memoryCache } from "../deps/freesia.ts";
-import { root } from "../constant.ts";
+import { postRoot } from "../constant.ts";
 import {
     metaParser,
     PostInDB,
@@ -25,7 +25,7 @@ async function checkFileStatus(fullpath: string) {
 }
 
 async function loadUUID(category: string[]) {
-    const fullpath = join(root, ...category, ".uuid");
+    const fullpath = join(postRoot, ...category, ".uuid");
     const stat = await checkFileStatus(fullpath);
     if (stat === null) {
         await Deno.writeTextFile(fullpath, crypto.randomUUID());
@@ -34,7 +34,7 @@ async function loadUUID(category: string[]) {
 }
 
 async function loadPostMeta(category: string[]) {
-    const fullpath = join(root, ...category, "meta.yml");
+    const fullpath = join(postRoot, ...category, "meta.yml");
     return Deno.readTextFile(fullpath)
         .then(metaParser)
         .then((meta) => {
@@ -48,7 +48,7 @@ async function loadPostMeta(category: string[]) {
 }
 
 async function loadPostVisited(category: string[]) {
-    const fullpath = join(root, ...category, ".visited.json");
+    const fullpath = join(postRoot, ...category, ".visited.json");
     const stat = await checkFileStatus(fullpath);
     if (stat === null) {
         await Deno.writeTextFile(
@@ -85,11 +85,11 @@ async function findPostsRecursively(
     strictMode = false,
 ): Promise<PostInDB[]> {
     let posts: PostInDB[] = [];
-    for await (const entry of Deno.readDir(join(root, ...categroy))) {
+    for await (const entry of Deno.readDir(join(postRoot, ...categroy))) {
         try {
             if (entry.name === "index.md" && entry.isFile) {
                 const { mtime } = await Deno.stat(
-                    join(root, ...categroy, entry.name),
+                    join(postRoot, ...categroy, entry.name),
                 );
                 const post = await composePostMeta(
                     categroy,
@@ -121,7 +121,7 @@ async function rebuildDB(strictMode = false) {
 }
 
 export async function watchDir(minInterval = 1000, strictMode = false) {
-    const watcher = Deno.watchFs(root);
+    const watcher = Deno.watchFs(postRoot);
     await rebuildDB();
     let lastEvent: Deno.FsEvent;
     const throttledRebuilder = createWrapper<
@@ -163,7 +163,7 @@ export function logVisit(uuid: string) {
         if (today in post.visited) post.visited[today] += 1;
         else post.visited[today] = 1;
         Deno.writeTextFile(
-            join(root, ...post.category, ".visited.json"),
+            join(postRoot, ...post.category, ".visited.json"),
             visitLogSerializer(post.visited),
         );
     }

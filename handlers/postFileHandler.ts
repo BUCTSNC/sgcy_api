@@ -11,7 +11,7 @@ import { lookup } from "../deps/mediaTypes.ts";
 import { escapeStringRegExp } from "../deps/escapeStringRegExp.ts";
 import { metaQuery } from "../services/metaQuery.ts";
 import { exact } from "../utils/RegExpUtils.ts";
-import { root } from "../constant.ts";
+import { postRoot } from "../constant.ts";
 import { validate } from "../services/ticket.ts";
 import { PostInDB } from "../types/post.ts";
 import { logVisit } from "../storage/db.ts";
@@ -29,7 +29,7 @@ export function getPostMeta(uuid: string): PostInDB | null {
 
 function getPostPath(uuid: string): string | null {
     return compute(getPostMeta(uuid))
-        .mapSkipNull((post) => join(root, ...post.category)).value;
+        .mapSkipNull((post) => join(postRoot, ...post.category)).value;
 }
 
 export const getPostFile = (

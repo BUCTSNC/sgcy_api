@@ -23,11 +23,6 @@ export function App(originState: State) {
             .then((res) => res.text())
             .then(StateParser)
             .then((data) => {
-                if (data === undefined) sessionStorage.setItem("ssg", "0");
-                else sessionStorage.setItem("ssg", "1");
-                return data;
-            })
-            .then((data) => {
                 if (data === undefined) throw new Error();
                 return data;
             })

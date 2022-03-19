@@ -22,6 +22,7 @@ import categoryHandler from "./handlers/categoryHandler.ts";
 import tagsHandler from "./handlers/tagsHandler.ts";
 
 const { switcher } = createSwRtX<Promise<Respond>, Request>()
+    .route("/NonSSG", Get(async () => createRes(200)))
     .route("/p/<uuid>/<filepath>", Get(fileHandler)) // 此处不会匹配/p/<uuid>/的情形
     .route("/api/cate/<cate>", Get(categoryHandler))
     .route("/api/tags/<tag>/", Get(tagsHandler))

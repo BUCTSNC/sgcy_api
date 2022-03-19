@@ -2,6 +2,7 @@ import { memoryDB, rebuildDB } from "./storage/db.ts";
 import { path } from "./deps/std.ts";
 import { getSSRDataHandler, ssrHandler } from "./handlers/SSRHandler.tsx";
 import { StateSerializer } from "./types/state.ts";
+import { fsEventHandler } from "./generateMainJS.ts";
 
 const ssgRoot = path.join(Deno.cwd(), "ssg");
 
@@ -41,8 +42,8 @@ async function BuildPostDir(uuids: string[]) {
         if (html === undefined || html === null) {
             console.log(`Failed to generate html for ${originDir}`);
         } else await Deno.writeTextFile(path.join(postDir, "index.html"), html);
-        const stateData = await getSSRDataHandler(`/p/${uuid}/`)
-        await Deno.writeTextFile(path.join(postDir, "ssgdata"), StateSerializer(stateData))
+        const stateData = await getSSRDataHandler(`/p/${uuid}/`);
+        await Deno.writeTextFile(path.join(postDir, "ssgdata"), StateSerializer(stateData));
     }
 }
 
@@ -54,8 +55,8 @@ async function BuildTagDir(tags: string[]) {
         if (html === undefined || html === null) {
             console.log(`Failed to generate html for ${tag}`);
         } else await Deno.writeTextFile(path.join(tagDir, "index.html"), html);
-        const stateData = await getSSRDataHandler(`/tag/${tag}/`)
-        await Deno.writeTextFile(path.join(tagDir, "ssgdata"), StateSerializer(stateData))
+        const stateData = await getSSRDataHandler(`/tag/${tag}/`);
+        await Deno.writeTextFile(path.join(tagDir, "ssgdata"), StateSerializer(stateData));
     }
 }
 
@@ -67,8 +68,8 @@ async function BuildCateDir(cates: string[]) {
         if (html === undefined || html === null) {
             console.log(`Failed to generate html for ${cate}`);
         } else await Deno.writeTextFile(path.join(cateDir, "index.html"), html);
-        const stateData = await getSSRDataHandler(`/cate/${cate}/`)
-        await Deno.writeTextFile(path.join(cateDir, "ssgdata"), StateSerializer(stateData))
+        const stateData = await getSSRDataHandler(`/cate/${cate}/`);
+        await Deno.writeTextFile(path.join(cateDir, "ssgdata"), StateSerializer(stateData));
     }
 }
 
@@ -88,22 +89,23 @@ const cates = memoryDB.map((post) => post.category[0])
         else return [...all, next];
     }, [] as string[]);
 
+await fsEventHandler();
 await createSSGDirectories();
-console.log("Directory created")
+console.log("Directory created");
 await BuildPostDir(posts);
-console.log("Posts generated")
+console.log("Posts generated");
 await BuildCateDir(cates);
-console.log("Cate generated")
+console.log("Cate generated");
 await BuildTagDir(tags);
-console.log("Tag created")
-await copyFileR("./static", path.join(ssgRoot, "static"))
-console.log("static files copied")
+console.log("Tag created");
+await copyFileR("./static", path.join(ssgRoot, "static"));
+console.log("static files copied");
 const [_status, HomePageHTML] = await ssrHandler("/");
-const state = await getSSRDataHandler("/")
-if(typeof HomePageHTML === "string") {
-    await Deno.writeTextFile(path.join(ssgRoot, "index.html"), HomePageHTML)
-    await Deno.writeTextFile(path.join(ssgRoot, "ssgdata"), StateSerializer(state))
+const state = await getSSRDataHandler("/");
+if (typeof HomePageHTML === "string") {
+    await Deno.writeTextFile(path.join(ssgRoot, "index.html"), HomePageHTML);
+    await Deno.writeTextFile(path.join(ssgRoot, "ssgdata"), StateSerializer(state));
 }
-console.log("index.html copied.")
-console.log("Finished")
-Deno.exit(0)
+console.log("index.html copied.");
+console.log("Finished");
+Deno.exit(0);

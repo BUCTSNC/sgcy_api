@@ -1,7 +1,8 @@
 # For *nix
 server
+SSG
+SSGServer
 generateMainJS
 # For Windows
-server.exe
-generateMainJS.exe
+*.exe
 ssg/

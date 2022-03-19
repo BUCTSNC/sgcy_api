@@ -1,10 +1,7 @@
 import * as esbuild from "https://deno.land/x/esbuild@v0.14.25/mod.js";
 import { createWrapper } from "https://deno.land/x/freesia@v1.1.2/mod.ts";
 
-const watcher = Deno.watchFs("./views", { recursive: true });
-console.log("Watcher created.");
-
-const fsEventHandler = () => {
+export const fsEventHandler = () => {
     console.log(`Rebuild main.js`);
     return Deno.emit("./views/main.tsx", {
         bundle: "module",
@@ -55,13 +52,22 @@ const throttle = (waitToExec: number) =>
                     console.log("Rebuild finished.");
                 }];
             } // lastEvent在等待期间被刷新了，让后续事件来调用函数
-            else return [null, async () => {}];
+            else return [null, async () => { }];
         },
     );
 
 const throttled = throttle(1000)(fsEventHandler);
 
-fsEventHandler();
-for await (const event of watcher) {
-    throttled(event);
+if (0 in Deno.args) {
+    if (Deno.args[0] === "buildOnce") {
+        fsEventHandler();
+    } else if (Deno.args[0] === "watch") {
+        const viewsWatcher = Deno.watchFs("./views", { recursive: true });
+        console.log("Watcher created.");
+        fsEventHandler();
+        for await (const event of viewsWatcher) {
+            throttled(event);
+        }
+    }
+    Deno.exit(0);
 }

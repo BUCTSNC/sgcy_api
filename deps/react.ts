@@ -11,6 +11,7 @@ export {
 export { default as ReactDOM } from "https://esm.sh/react-dom@17.0.2?dev&pin=v70";
 export { renderToString } from "https://esm.sh/react-dom@17.0.2/server?dev&pin=v70";
 export {
+    BrowserRouter,
     Outlet,
     Route,
     Routes,

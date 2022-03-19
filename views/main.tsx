@@ -2,18 +2,19 @@ import { BrowserRouter, React, ReactDOM } from "../deps/react.ts";
 import { StateParser } from "../types/state.ts";
 import App from "./App.tsx";
 
-await fetch(`/NonSSG`)
+fetch(`/NonSSG`)
+    .catch(() => ({ ok: false }))
     .then(res => res.ok)
     .then(NonSSG => {
-        if(NonSSG) sessionStorage.setItem("ssg", "0");
+        if (NonSSG) sessionStorage.setItem("ssg", "0");
         else sessionStorage.setItem("ssg", "1");
-        return fetch("./ssgdata")
+        return fetch("./ssgdata");
     })
     .then((res) => {
-        if (res.ok) {        
-            return res.text()
+        if (res.ok) {
+            return res.text();
         } else {
-            return ""
+            return "";
         }
     })
     .then(StateParser)
@@ -31,5 +32,8 @@ await fetch(`/NonSSG`)
             </BrowserRouter>,
             document.getElementById("App"),
         );
+    })
+    .catch(err => {
+        console.log(JSON.stringify(err));
     });
 

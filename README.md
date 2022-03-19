@@ -9,75 +9,80 @@ UUID）和`--allow-read`（读取文件）参数。
 
 > 除非你有超级多核心，否则不要使用 cargo 来安装，要命。
 
-程序的入口是`server.ts`，你可以进行：
+### 目录结构
 
-- 运行：`deno run --watch --allow-net --allow-read --allow-write server.ts`
-- 编译：`deno compile --allow-net --allow-read --allow-write server.ts`
+```
+.
+├── deps # 依赖项目
+├── docs # 文章的目录，是一个Git子模块
+├── handlers # 路由处理器
+├── services # 一些涉及到数据处理的工具函数
+├── ssg # 服务端渲染内容的目录
+├── static # 静态文件目录
+├── storage # 内存数据库
+├── types # 前后端公用的类型定义
+├── utils # 一些简单的工具函数
+└── views # 前端代码目录
+```
 
-需要编译`./views`目录下的文件到`./static/main.js`，使用工具文件`generateMainJS.ts`可以完成：
+此外，根目录下还有以下TypeScript文件：
 
-直接运行：`deno run --allow-net --allow-read --allow-write --allow-run --allow-env --unstable generateMainJS.ts`。
+- `server.ts`，用于启动SSR和API服务器的入口
+    - 运行：`deno run --allow-net --allow-read --allow-write server.ts`
+    - 运行（监测修改）：`deno run --allow-net --allow-read --allow-write --watch server.ts`
+- `main.ts`，Freesia框架逻辑的入口，SSR和API服务器的路由定义在此。不可执行
+- `generateMainJS.ts`，用于将前端代码bundle成`/static/main.js`。
+    - 运行：`deno run --allow-net --allow-read --allow-write --allow-env --allow-run generateMainJS.ts [mode]`
+        - [mode]=buildOnce: 编译后立即退出
+        - [mode]=watch: 建立对`./views`目录的监视，发生变化时重新编译。
+    - 编译（推荐）：`deno compile --allow-net --allow-read --allow-write --allow-env --allow-run generateMainJS.ts`
+- `SSG.ts`，进行服务端生成。
+    - 运行：`deno run --allow-net --allow-read --allow-write --allow-env --allow-run SSG.ts`
+    - 编译（推荐）：`deno compile --allow-net --allow-read --allow-write --allow-env --allow-run SSG.ts`
+- `SSGServer.ts`，为`ssg`目录启动一个静态文件服务器。
+    - 运行：`deno run --allow-net --allow-read SSGServer.ts`
+    - 编译（推荐）：`deno compile --allow-net --allow-read SSG.ts`
 
-显然很麻烦，可以先编译为二进制程序：`deno compile --allow-net --allow-read --allow-write --allow-run --allow-env --unstable generateMainJS.ts`，然后通过`./generateMainJS`调用就可以了。这个程序会自动监视`./views`目录，但一些类型定义的变动可能会发生于其他目录不会被监视到，此时保存`./views`下的任意文件，强制刷新即可。
-
-## 目录
+## 文章目录
 
 默认文章根目录是运行程序时，工作目录下的`docs/`，每个 Post
-目录下应该包含至少`index.md`和`meta.json`两个文件。程序运行后，同时存在`index.md`和`meta.json`的目录下会创建`.uuid`（如果没有的话）。
+目录下应该包含至少`index.md`和`meta.yml`两个文件。程序运行后，同时存在`index.md`和`meta.yml`的目录下会创建`.uuid`和`.visited.json`（如果没有的话）。
 
 可以以任意的形式来组织目录树，这不会影响文章的层次结构。初始化数据库时，程序会递归的检索目标目录的整个目录树。尽管理论上程序不会追踪符号链接，但是我还没有在多种平台上进行测试，因此仍然请不要在目录中放置符号链接，尤其是可能造成循环的符号链接。
 
 ## 文章
 
-使用`meta.json`来定义文章的元数据。
+使用`meta.yml`来定义文章的元数据。
 
 它的定义如下：
 
 ```ts
-type PostMetaInJSON = {
+// types/post.ts
+export type PostMetaInYAML = {
     title: string;
     intro: string;
     authors: string[];
     tags: string[];
+    editors: string[];
+    headerImage?: string;
 };
 ```
 
 例子如下：
 
-```json
-{
-    "title": "通过VPN在校外访问学术资源",
-    "intro": "本文介绍了我校的WEB VPN和SSL VPN的使用方法，以及一些常见的校园网可以访问的学术资源的使用方式",
-    "authors": ["张三", "李四"],
-    "tags": ["学术资源", "SciFinder", "VPN", "图书馆", "校园网"]
-}
+```yml
+title: 学习资源攻略
+intro: 本文向大家介绍了如何获取一些常用的学习资源
+authors: [宋昱霖]
+editors: [陈梁辉,田福利]
+tags: [学习资料]
 ```
-
-- title：文章的标题
-- intro：文章的介绍
-- authros：文章的作者列表
-- tags：文章的关键词列表
 
 ## APIs
 
-### 搜索接口
-
-搜索接口的路径是`/search`，通过查询字符串来添加搜索信息。查询参数包括：
-
-- keywords: 查询关键词，可以有若干个，例如`&keywords=昌平&keywords=宿舍`。多个关键词结果取合集。
-- fields：查询字段名，有效的字段名有：`title`，`intro`，`authors`，`tags`
-- limit：结果数目，最多输出若干条结果
-- asc：排序方式，设置为 0 或 1（若不为 1 的任意值，按照 desc 排列）
-- from：查询范围的起始时间（可选，默认为时间戳 0 点）
-- to：查询范围的终止时间（可选，默认为现在）
-
-查询示例
-
-`http://hostname:port/serach?keywords=昌平&keywords=校园风光&fields=intro&fields=tag&limit=10&asc=1&from=2020.12.31&to=2021.12.31`
-
 ### 文件接口
 
-文件接口的路径是`/file/<uuid>/<filepath>`，系统会首先在内部通过 UUID 查询实际的 Post
+文件接口的路径是`/p/<uuid>/<filepath>`，系统会首先在内部通过 UUID 查询实际的 Post
 目录路径，然后查找对应的文件位置。如果文件或者 Post 不存在，都会返回 404。
 
 当访问的搜索参数中有`firstVisit`，且访问的`filepath`是`index.md`，且返回值为`200`时，记录一次访问。
@@ -90,3 +95,12 @@ type PostMetaInJSON = {
 
 榜单接口的路径是`/list/<type>`，支持的`type`包括`daily`，`weekly`，`monthly`，`yearly`，可以获得访问量的前
 50 位。
+
+### 目录和标签接口
+
+根据给定的目录或标签，得到目录下或包含标签的文章列表。
+
+- `/api/cate/<cate>`
+- `/api/tags/<tag>/`
+
+这两个接口都是带缓存的，相同的参数在一分钟内会返回缓存的结果，而不是立刻更新。

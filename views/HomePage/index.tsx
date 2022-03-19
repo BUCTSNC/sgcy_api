@@ -1,12 +1,13 @@
 import { isVoid } from "../../deps/freesia.ts";
-import { React, useEffect, useNavigate, useState } from "../../deps/react.ts";
-import { postArrayParser, PostSend } from "../../types/post.ts";
+import { React, useState } from "../../deps/react.ts";
+import { postArrayParser } from "../../types/post.ts";
 import { State } from "../../types/state.ts";
 import { PostCard } from "../Component/PostCard.tsx";
+import { useNonSSGEffect } from "../isSSG.ts";
 
 export function HomePage(props: { hotList: State["hotList"] }) {
     const [hotList, setHotList] = useState(props.hotList);
-    useEffect(() => {
+    useNonSSGEffect(() => {
         fetch("/list/weekly")
             .then((res) => {
                 if (res.ok) return res.text();

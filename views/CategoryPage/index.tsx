@@ -1,7 +1,6 @@
 import { isVoid } from "../../deps/freesia.ts";
 import {
     React,
-    useEffect,
     useNavigate,
     useParams,
     useState,
@@ -9,13 +8,13 @@ import {
 import { postArrayParser, PostSend } from "../../types/post.ts";
 import { throwIfNull } from "../../utils/throwIfNull.ts";
 import { PostCard } from "../Component/PostCard.tsx";
-import { isSSG } from "../isSSG.ts";
+import { isSSG, useNonSSGEffect } from "../isSSG.ts";
 
 export const CategoryPage = (props: { postList: PostSend[] }) => {
     const { "*": cate } = useParams();
     const [list, setList] = useState(props.postList);
     const navi = useNavigate();
-    useEffect(() => {
+    useNonSSGEffect(() => {
         if (isVoid(cate)) {
             console.log("No such category.");
         } else {

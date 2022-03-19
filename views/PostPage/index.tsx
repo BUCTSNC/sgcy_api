@@ -1,15 +1,14 @@
 import { marked } from "../../deps/marked.ts";
-import { React, useEffect, useParams, useState } from "../../deps/react.ts";
+import { React, useParams, useState } from "../../deps/react.ts";
 import { postSendParser } from "../../types/post.ts";
 import { State } from "../../types/state.ts";
 import { Tags } from "../Component/Tags.tsx";
-import { logEffect } from "../../debug.ts";
-import { isSSG } from "../isSSG.ts";
+import { isSSG, useNonSSGEffect } from "../isSSG.ts";
 
 export function PostPage(props: { post: NonNullable<State["post"]> }) {
     const { uuid } = useParams();
     const [postRemote, setPost] = useState(props.post);
-    useEffect(() => {
+    useNonSSGEffect(() => {
         Promise.all([
             fetch(`/query/${uuid}/`),
             fetch(`/p/${uuid}/index.md`),

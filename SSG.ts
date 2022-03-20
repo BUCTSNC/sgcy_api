@@ -37,7 +37,7 @@ async function BuildPostDir(uuids: string[]) {
         const postDir = path.join(ssgRoot, "p", uuid);
         const post = memoryDB.find((post) => post.uuid === uuid)!;
         const originDir = path.join("docs", ...post.category);
-        copyFileR(originDir, postDir);
+        await copyFileR(originDir, postDir);
         const [_status, html] = await ssrHandler(`/p/${uuid}/`);
         if (html === undefined || html === null) {
             console.log(`Failed to generate html for ${originDir}`);

@@ -1,4 +1,4 @@
-import { useNavigate,React } from "../../deps/react.ts";
+import { React, useNavigate } from "../../deps/react.ts";
 import { PostSend } from "../../types/post.ts";
 import { Tags } from "./Tags.tsx";
 

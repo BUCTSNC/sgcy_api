@@ -1,10 +1,5 @@
 import { isVoid } from "../../deps/freesia.ts";
-import {
-    React,
-    useEffect,
-    useParams,
-    useState,
-} from "../../deps/react.ts";
+import { React, useEffect, useParams, useState } from "../../deps/react.ts";
 import { postArrayParser, PostSend } from "../../types/post.ts";
 import { throwIfNull } from "../../utils/throwIfNull.ts";
 import { PostCard } from "../Component/PostCard.tsx";
@@ -32,7 +27,12 @@ export const TagsPage = (props: { postList: PostSend[] }) => {
     return (
         <div className="CategoryPage">
             <h2>{tag}</h2>
-            {postList.map((post, index) => <PostCard key={index} post={post} />)}
+            {postList.map((post, index) => (
+                <PostCard
+                    key={index}
+                    post={post}
+                />
+            ))}
         </div>
     );
 };

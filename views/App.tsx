@@ -27,7 +27,7 @@ export function App(originState: State) {
                 return data;
             })
             .then(setState)
-            .catch(() => { });
+            .catch(() => {});
     }, [location.pathname]);
     return (
         <div className="App">

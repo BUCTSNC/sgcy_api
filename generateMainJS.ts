@@ -52,7 +52,7 @@ const throttle = (waitToExec: number) =>
                     console.log("Rebuild finished.");
                 }];
             } // lastEvent在等待期间被刷新了，让后续事件来调用函数
-            else return [null, async () => { }];
+            else return [null, async () => {}];
         },
     );
 

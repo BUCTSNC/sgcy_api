@@ -11,7 +11,9 @@ const categoryCompare = (target: string[], source: string[]): boolean => {
 export const getPostByCategory = async (
     cate: string,
 ): Promise<TypedResponse<PostSend[]>> => {
-    const categories = cate.split("/").filter(str => str !== "").map(decodeURIComponent);
+    const categories = cate.split("/").filter((str) => str !== "").map(
+        decodeURIComponent,
+    );
     return [
         200,
         memoryDB.filter((post) => categoryCompare(categories, post.category))
@@ -23,4 +25,4 @@ export const categoryHandler = async (
     params: { cate: string },
 ) => ResFromTuple(await memoryCache(getPostByCategory, 60 * 1000)(params.cate));
 
-export default categoryHandler
+export default categoryHandler;

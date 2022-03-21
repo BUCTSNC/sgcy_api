@@ -66,7 +66,7 @@ export type PostInDB = PostMetaInFS & PostMetaInYAML & {
     visited: PostVisitLog;
 };
 
-export type PostSend = PostMetaInFS & PostMetaInYAML & { amount: number; };
+export type PostSend = PostMetaInFS & PostMetaInYAML & { amount: number };
 
 export const PostSchema: JTDSchemaType<PostSend> = {
     properties: {
@@ -75,8 +75,8 @@ export const PostSchema: JTDSchemaType<PostSend> = {
         timestamp: { type: "timestamp" },
         amount: { type: "uint32" },
         target: {
-            elements: { type: "string" }
-        }
+            elements: { type: "string" },
+        },
     },
     optionalProperties: {
         ...metaSchema.optionalProperties,

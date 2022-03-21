@@ -16,4 +16,4 @@ export const tagsHandler = async (
     params: { tag: string },
 ) => ResFromTuple(await memoryCache(getPostByTag, 60 * 1000)(params.tag));
 
-export default tagsHandler
+export default tagsHandler;

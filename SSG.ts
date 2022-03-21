@@ -43,7 +43,10 @@ async function BuildPostDir(uuids: string[]) {
             console.log(`Failed to generate html for ${originDir}`);
         } else await Deno.writeTextFile(path.join(postDir, "index.html"), html);
         const stateData = await getSSRDataHandler(`/p/${uuid}/`);
-        await Deno.writeTextFile(path.join(postDir, "ssgdata"), StateSerializer(stateData));
+        await Deno.writeTextFile(
+            path.join(postDir, "ssgdata"),
+            StateSerializer(stateData),
+        );
     }
 }
 
@@ -56,7 +59,10 @@ async function BuildTagDir(tags: string[]) {
             console.log(`Failed to generate html for ${tag}`);
         } else await Deno.writeTextFile(path.join(tagDir, "index.html"), html);
         const stateData = await getSSRDataHandler(`/tag/${tag}/`);
-        await Deno.writeTextFile(path.join(tagDir, "ssgdata"), StateSerializer(stateData));
+        await Deno.writeTextFile(
+            path.join(tagDir, "ssgdata"),
+            StateSerializer(stateData),
+        );
     }
 }
 
@@ -69,7 +75,10 @@ async function BuildCateDir(cates: string[]) {
             console.log(`Failed to generate html for ${cate}`);
         } else await Deno.writeTextFile(path.join(cateDir, "index.html"), html);
         const stateData = await getSSRDataHandler(`/cate/${cate}/`);
-        await Deno.writeTextFile(path.join(cateDir, "ssgdata"), StateSerializer(stateData));
+        await Deno.writeTextFile(
+            path.join(cateDir, "ssgdata"),
+            StateSerializer(stateData),
+        );
     }
 }
 
@@ -104,7 +113,10 @@ const [_status, HomePageHTML] = await ssrHandler("/");
 const state = await getSSRDataHandler("/");
 if (typeof HomePageHTML === "string") {
     await Deno.writeTextFile(path.join(ssgRoot, "index.html"), HomePageHTML);
-    await Deno.writeTextFile(path.join(ssgRoot, "ssgdata"), StateSerializer(state));
+    await Deno.writeTextFile(
+        path.join(ssgRoot, "ssgdata"),
+        StateSerializer(state),
+    );
 }
 console.log("index.html copied.");
 console.log("Finished");

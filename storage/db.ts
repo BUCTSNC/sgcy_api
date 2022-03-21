@@ -1,6 +1,6 @@
 import "../global.d.ts";
 import { path } from "../deps/std.ts";
-import { isVoid, memoryCache } from "../deps/freesia.ts";
+import { createProxy, isVoid, memoryCache } from "../deps/freesia.ts";
 import { postRoot } from "../constant.ts";
 import {
     metaParser,
@@ -10,7 +10,6 @@ import {
     visitLogSerializer,
 } from "../types/post.ts";
 import { getDateStamp } from "../services/datestamp.ts";
-import { createWrapper } from "https://deno.land/x/freesia@v1.1.2/mod.ts";
 import { sleep } from "../services/sleep.ts";
 
 const { join } = path;
@@ -124,7 +123,7 @@ export async function watchDir(minInterval = 1000, strictMode = false) {
     const watcher = Deno.watchFs(postRoot);
     await rebuildDB();
     let lastEvent: Deno.FsEvent;
-    const throttledRebuilder = createWrapper<
+    const throttledRebuilder = createProxy<
         typeof rebuildDB,
         (event: Deno.FsEvent, strictMode: boolean) => Promise<MemoryDB>
     >(
@@ -145,7 +144,7 @@ export async function watchDir(minInterval = 1000, strictMode = false) {
             await sleep(minInterval);
             // lastEvent在等待期间没有被更新，调用函数重建main.js
             if (event === lastEvent) {
-                return [[strictMode]];
+                return [[strictMode], (result) => result];
             } // lastEvent在等待期间被刷新了，让后续事件来调用函数
             else return [null, async () => memoryDB];
         },

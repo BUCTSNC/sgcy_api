@@ -15,9 +15,9 @@ export {
     Outlet,
     Route,
     Routes,
-    useParams,
+    useLocation,
     useNavigate,
+    useParams,
     useSearchParams,
-    useLocation
 } from "https://esm.sh/react-router-dom@6.2.2?dev&pin=v70";
 export { StaticRouter } from "https://esm.sh/react-router-dom@6.2.2/server?dev&pin=v70";

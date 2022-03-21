@@ -3,7 +3,8 @@
         "files": {
             "exclude": [
                 "static",
-                "docs"
+                "docs",
+                "ssg"
             ]
         },
         "rules": {
@@ -11,7 +12,8 @@
                 "recommended"
             ],
             "include": [
-                "ban-untagged-todo"
+                "ban-untagged-todo",
+                "no-deprecated-deno-api"
             ],
             "exclude": [
                 "require-await"
@@ -22,7 +24,8 @@
         "files": {
             "exclude": [
                 "static",
-                "docs"
+                "docs",
+                "ssg"
             ]
         },
         "options": {

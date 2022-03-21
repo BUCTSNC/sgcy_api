@@ -1,5 +1,5 @@
 import { JTDSchemaType } from "../deps/ajvJTD.ts";
-import { PostArraySchema, PostSchema, PostSend, ajv } from "./post.ts";
+import { ajv, PostArraySchema, PostSchema, PostSend } from "./post.ts";
 
 export type State = {
     hotList: PostSend[];

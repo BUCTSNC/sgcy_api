@@ -4,8 +4,8 @@ import App from "./App.tsx";
 
 fetch(`/NonSSG`)
     .catch(() => ({ ok: false }))
-    .then(res => res.ok)
-    .then(NonSSG => {
+    .then((res) => res.ok)
+    .then((NonSSG) => {
         if (NonSSG) sessionStorage.setItem("ssg", "0");
         else sessionStorage.setItem("ssg", "1");
         return fetch("./ssgdata");
@@ -33,7 +33,6 @@ fetch(`/NonSSG`)
             document.getElementById("App"),
         );
     })
-    .catch(err => {
+    .catch((err) => {
         console.log(JSON.stringify(err));
     });
-

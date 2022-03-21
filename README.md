@@ -28,20 +28,20 @@ UUID）和`--allow-read`（读取文件）参数。
 此外，根目录下还有以下TypeScript文件：
 
 - `server.ts`，用于启动SSR和API服务器的入口
-    - 运行：`deno run --allow-net --allow-read --allow-write server.ts`
-    - 运行（监测修改）：`deno run --allow-net --allow-read --allow-write --watch server.ts`
+  - 运行：`deno run --allow-net --allow-read --allow-write server.ts`
+  - 运行（监测修改）：`deno run --allow-net --allow-read --allow-write --watch server.ts`
 - `main.ts`，Freesia框架逻辑的入口，SSR和API服务器的路由定义在此。不可执行
 - `generateMainJS.ts`，用于将前端代码bundle成`/static/main.js`。
-    - 运行：`deno run --allow-net --allow-read --allow-write --allow-env --allow-run generateMainJS.ts [mode]`
-        - [mode]=buildOnce: 编译后立即退出
-        - [mode]=watch: 建立对`./views`目录的监视，发生变化时重新编译。
-    - 编译（推荐）：`deno compile --allow-net --allow-read --allow-write --allow-env --allow-run generateMainJS.ts`
+  - 运行：`deno run --allow-net --allow-read --allow-write --allow-env --allow-run generateMainJS.ts [mode]`
+    - [mode]=buildOnce: 编译后立即退出
+    - [mode]=watch: 建立对`./views`目录的监视，发生变化时重新编译。
+  - 编译（推荐）：`deno compile --allow-net --allow-read --allow-write --allow-env --allow-run generateMainJS.ts`
 - `SSG.ts`，进行服务端生成。
-    - 运行：`deno run --allow-net --allow-read --allow-write --allow-env --allow-run SSG.ts`
-    - 编译（推荐）：`deno compile --allow-net --allow-read --allow-write --allow-env --allow-run SSG.ts`
+  - 运行：`deno run --allow-net --allow-read --allow-write --allow-env --allow-run SSG.ts`
+  - 编译（推荐）：`deno compile --allow-net --allow-read --allow-write --allow-env --allow-run SSG.ts`
 - `SSGServer.ts`，为`ssg`目录启动一个静态文件服务器。
-    - 运行：`deno run --allow-net --allow-read SSGServer.ts`
-    - 编译（推荐）：`deno compile --allow-net --allow-read SSG.ts`
+  - 运行：`deno run --allow-net --allow-read SSGServer.ts`
+  - 编译（推荐）：`deno compile --allow-net --allow-read SSG.ts`
 
 ## 文章目录
 

@@ -1,3 +1,27 @@
 * {
-    transition-duration: 200ms;
+  transition-duration: 200ms;
+}
+
+@media screen and (min-aspect-ratio: 1/1) {
+  html {
+    font-size: 14pt;
+  }
+}
+
+@media screen and (max-aspect-ratio: 1/1) {
+  html {
+    font-size: 18pt;
+  }
+}
+
+@media screen and (max-aspect-ratio: 3/4) {
+  html {
+    font-size: 20pt;
+  }
+}
+
+@media screen and (max-aspect-ratio: 9/16) {
+  html {
+    font-size: 26pt;
+  }
 }

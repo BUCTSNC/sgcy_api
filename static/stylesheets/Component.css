@@ -1,36 +1,42 @@
-@media screen and (max-width: 1280px) {
-    .Container {
-        width: 90vw;
-    }
+@media screen and (max-aspect-ratio: 1/1) {
+  .Container {
+    width: 95vw;
+  }
 }
 
-@media screen and (max-width: 1440px) {
-    .Container {
-        width: 80vw
-    }
+@media screen and (min-aspect-ratio: 1/1) {
+  .Container {
+    width: 90vw;
+  }
 }
 
-@media screen and (min-width: 1440px) {
-    .Container {
-        width: 60vw;
-    }
+@media screen and (min-aspect-ratio: 4/3) {
+  .Container {
+    width: 80vw;
+  }
+}
+
+@media screen and (min-aspect-ratio: 16/9) {
+  .Container {
+    width: 60vw;
+  }
 }
 
 .Tags {
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: left;
 }
 
 .Tag {
-    margin-left: 4px;
-    margin-right: 4px;
-    padding: 4px;
-    border-radius: 4px;
-    background-color: #dddddd;
+  margin: 4px;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: #dddddd;
 }
 
 .Tag:hover {
-    background-color: #606060;
-    color: #eeeeee;
+  background-color: #606060;
+  color: #eeeeee;
 }

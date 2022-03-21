@@ -27,7 +27,7 @@ export function App(originState: State) {
                 return data;
             })
             .then(setState)
-            .catch(() => {});
+            .catch(() => { });
     }, [location.pathname]);
     return (
         <div className="App">
@@ -50,22 +50,7 @@ export function App(originState: State) {
                             path="p/:uuid"
                             element={
                                 <PostPage
-                                    post={state.post ?? {
-                                        meta: {
-                                            uuid: "404",
-                                            title: "内容未找到",
-                                            intro:
-                                                "文章可能被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。",
-                                            tags: [],
-                                            authors: [],
-                                            timestamp: new Date(),
-                                            category: [],
-                                            editors: [],
-                                            amount: 0
-                                        },
-                                        indexMD:
-                                            "## 没有找到对应的内容\n\n文章可能被删除或者移动到了其他位置，请尝试使用搜索功能进行查找。",
-                                    }}
+                                    post={state.post}
                                 />
                             }
                         />

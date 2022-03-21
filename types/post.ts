@@ -16,6 +16,9 @@ const metaSchema: JTDSchemaType<PostMetaInYAML> = {
         editors: {
             elements: { type: "string" },
         },
+        category: {
+            elements: { type: "string" },
+        },
     },
     optionalProperties: {
         headerImage: { type: "string" },
@@ -36,6 +39,7 @@ export type PostMetaInYAML = {
     title: string;
     intro: string;
     authors: string[];
+    category: string[];
     tags: string[];
     editors: string[];
     headerImage?: string;
@@ -43,7 +47,7 @@ export type PostMetaInYAML = {
 
 export type PostMetaInFS = {
     uuid: string;
-    category: string[];
+    target: string[];
     timestamp: Date;
 };
 
@@ -62,17 +66,17 @@ export type PostInDB = PostMetaInFS & PostMetaInYAML & {
     visited: PostVisitLog;
 };
 
-export type PostSend = PostMetaInFS & PostMetaInYAML & { amount: number };
+export type PostSend = PostMetaInFS & PostMetaInYAML & { amount: number; };
 
 export const PostSchema: JTDSchemaType<PostSend> = {
     properties: {
         ...metaSchema.properties,
         uuid: { type: "string" },
-        category: {
-            elements: { type: "string" },
-        },
         timestamp: { type: "timestamp" },
         amount: { type: "uint32" },
+        target: {
+            elements: { type: "string" }
+        }
     },
     optionalProperties: {
         ...metaSchema.optionalProperties,

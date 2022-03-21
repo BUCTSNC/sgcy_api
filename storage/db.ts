@@ -24,8 +24,8 @@ async function checkFileStatus(fullpath: string) {
     ).catch(() => null);
 }
 
-async function loadUUID(category: string[]) {
-    const fullpath = join(postRoot, ...category, ".uuid");
+async function loadUUID(target: string[]) {
+    const fullpath = join(postRoot, ...target, ".uuid");
     const stat = await checkFileStatus(fullpath);
     if (stat === null) {
         await Deno.writeTextFile(fullpath, crypto.randomUUID());
@@ -33,22 +33,22 @@ async function loadUUID(category: string[]) {
     return Deno.readTextFile(fullpath);
 }
 
-async function loadPostMeta(category: string[]) {
-    const fullpath = join(postRoot, ...category, "meta.yml");
+async function loadPostMeta(target: string[]) {
+    const fullpath = join(postRoot, ...target, "meta.yml");
     return Deno.readTextFile(fullpath)
         .then(metaParser)
         .then((meta) => {
             if (isVoid(meta)) {
                 throw new Error(
-                    `Failed to parse meta.yml in ${category.join("/")}`,
+                    `Failed to parse meta.yml in ${target.join("/")}`,
                 );
             }
             return meta;
         });
 }
 
-async function loadPostVisited(category: string[]) {
-    const fullpath = join(postRoot, ...category, ".visited.json");
+async function loadPostVisited(target: string[]) {
+    const fullpath = join(postRoot, ...target, ".visited.json");
     const stat = await checkFileStatus(fullpath);
     if (stat === null) {
         await Deno.writeTextFile(
@@ -63,7 +63,7 @@ async function loadPostVisited(category: string[]) {
         .then((visited) => {
             if (isVoid(visited)) {
                 throw new Error(
-                    `Failed to parse meta.yml in ${category.join("/")}`,
+                    `Failed to parse meta.yml in ${target.join("/")}`,
                 );
             }
             return visited;
@@ -71,35 +71,35 @@ async function loadPostVisited(category: string[]) {
 }
 
 async function composePostMeta(
-    category: string[],
+    target: string[],
     mtime: Date,
 ): Promise<PostInDB> {
     const [uuid, meta, visited] = await Promise.all(
-        [loadUUID(category), loadPostMeta(category), loadPostVisited(category)],
+        [loadUUID(target), loadPostMeta(target), loadPostVisited(target)],
     );
-    return { ...meta, uuid, category, visited, timestamp: mtime };
+    return { ...meta, uuid, visited, target, timestamp: mtime };
 }
 
 async function findPostsRecursively(
-    categroy: string[],
+    target: string[],
     strictMode = false,
 ): Promise<PostInDB[]> {
     let posts: PostInDB[] = [];
-    for await (const entry of Deno.readDir(join(postRoot, ...categroy))) {
+    for await (const entry of Deno.readDir(join(postRoot, ...target))) {
         try {
             if (entry.name === "index.md" && entry.isFile) {
                 const { mtime } = await Deno.stat(
-                    join(postRoot, ...categroy, entry.name),
+                    join(postRoot, ...target, entry.name),
                 );
                 const post = await composePostMeta(
-                    categroy,
+                    target,
                     mtime ?? new Date(),
                 );
                 posts = [...posts, post];
             }
             if (entry.isDirectory) {
                 const subPosts = await findPostsRecursively([
-                    ...categroy,
+                    ...target,
                     entry.name,
                 ]);
                 posts = [...posts, ...subPosts];
@@ -163,7 +163,7 @@ export function logVisit(uuid: string) {
         if (today in post.visited) post.visited[today] += 1;
         else post.visited[today] = 1;
         Deno.writeTextFile(
-            join(postRoot, ...post.category, ".visited.json"),
+            join(postRoot, ...post.target, ".visited.json"),
             visitLogSerializer(post.visited),
         );
     }

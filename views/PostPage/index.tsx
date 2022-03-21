@@ -1,7 +1,7 @@
 import { isVoid } from "../../deps/freesia.ts";
 import { marked } from "../../deps/marked.ts";
 import { React, useParams, useState } from "../../deps/react.ts";
-import { postSendParser } from "../../types/post.ts";
+import { PostSend, postSendParser } from "../../types/post.ts";
 import { State } from "../../types/state.ts";
 import { Tags } from "../Component/Tags.tsx";
 import { isSSG, useNonSSGEffect } from "../isSSG.ts";
@@ -29,6 +29,7 @@ export function PostPage(props: { post: State["post"]; }) {
                             authors: [],
                             timestamp: new Date(),
                             category: [],
+                            target: [],
                             editors: [],
                             amount: 0
                         },

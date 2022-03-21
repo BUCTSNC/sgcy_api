@@ -19,4 +19,4 @@ export {
     shimHTTP,
     type TypedResponse,
     createWrapper
-} from "https://deno.land/x/freesia@v1.1.5/mod.ts";
+} from "https://deno.land/x/freesia@v1.1.6/mod.ts";

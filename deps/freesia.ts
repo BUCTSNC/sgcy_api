@@ -4,6 +4,7 @@ export {
     compute,
     condition,
     createEffect,
+    createProxy,
     createRes,
     createSwRt,
     createSwRtX,
@@ -18,5 +19,4 @@ export {
     type Respond,
     shimHTTP,
     type TypedResponse,
-    createWrapper
 } from "https://deno.land/x/freesia@v1.1.6/mod.ts";
